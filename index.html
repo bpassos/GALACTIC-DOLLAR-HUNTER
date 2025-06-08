@@ -1,0 +1,1687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Galactic Dollar Hunter 🚀</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0c0c2e, #1a1a4d, #2d2d5f);
+            color: white;
+            font-family: 'Courier New', monospace;
+            overflow: hidden;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .game-header {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .game-title {
+            font-size: 32px;
+            margin: 0;
+            color: #ffdd44;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .score, .level {
+            background: rgba(255, 221, 68, 0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 2px solid #ffdd44;
+        }
+
+        #gameCanvas {
+            border: 3px solid #ffdd44;
+            border-radius: 10px;
+            background: radial-gradient(circle, #0a0a2e, #000);
+            box-shadow: 0 0 30px rgba(255, 221, 68, 0.3);
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 16px;
+            color: #aaa;
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffdd44;
+            text-align: center;
+            display: none;
+        }
+
+        .restart-btn {
+            background: #ffdd44;
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .restart-btn:hover {
+            background: #fff;
+            transform: scale(1.05);
+        }
+
+        .shop {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffdd44;
+            width: 600px;
+            max-height: 500px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .shop h2 {
+            color: #ffdd44;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .ship-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .ship-card {
+            background: rgba(255, 221, 68, 0.1);
+            border: 2px solid #ffdd44;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .ship-card.owned {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .ship-card.selected {
+            border-color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .ship-preview {
+            width: 60px;
+            height: 40px;
+            margin: 0 auto 10px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background: #111;
+        }
+
+        .ship-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .ship-stats {
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+
+        .ship-price {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .buy-btn, .select-btn {
+            background: #ffdd44;
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .buy-btn:hover, .select-btn:hover {
+            background: #fff;
+        }
+
+        .buy-btn:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+
+        .shop-btn {
+            background: rgba(255, 221, 68, 0.2);
+            color: #ffdd44;
+            border: 2px solid #ffdd44;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            margin-left: 20px;
+        }
+
+        .shop-btn:hover {
+            background: rgba(255, 221, 68, 0.4);
+        }
+
+        .close-shop {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #ffdd44;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .achievements {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 3px solid #ffdd44;
+            width: 700px;
+            max-height: 600px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .achievements h2 {
+            color: #ffdd44;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .achievement-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .achievement-card {
+            background: rgba(255, 221, 68, 0.1);
+            border: 2px solid #666;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .achievement-card.completed {
+            border-color: #00ff88;
+            background: rgba(0, 255, 136, 0.2);
+        }
+
+        .achievement-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .achievement-name {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #ffdd44;
+        }
+
+        .achievement-desc {
+            font-size: 12px;
+            margin-bottom: 10px;
+            color: #aaa;
+        }
+
+        .achievement-progress {
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .achievement-reward {
+            font-size: 12px;
+            color: #ffdd44;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 5px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ffdd44, #ff8800);
+            transition: width 0.3s ease;
+        }
+
+        .achievements-btn {
+            background: rgba(255, 221, 68, 0.2);
+            color: #ffdd44;
+            border: 2px solid #ffdd44;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            margin-left: 10px;
+        }
+
+        .achievements-btn:hover {
+            background: rgba(255, 221, 68, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="game-container">
+        <div class="game-header">
+            <h1 class="game-title">🚀 GALACTIC DOLLAR HUNTER 🚀</h1>
+            <div class="score-board">
+                <div class="score">💰 Score: <span id="score">0</span></div>
+                <div class="level">🌌 Galaxy: <span id="level">1</span></div>
+                <div class="score">❤️ Health: <span id="hearts">❤️❤️❤️</span></div>
+                <button class="shop-btn" onclick="openShop()">🛸 Shop</button>
+                <button class="achievements-btn" onclick="openAchievements()">🏆 Missions</button>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="800" height="500"></canvas>
+        
+        <div class="controls">
+            Use ARROW KEYS or WASD to move your spaceship and collect dollars! 🛸💸<br>
+            Press SPACEBAR to shoot laser beams at aliens and asteroids! 🔫👽☄️
+        </div>
+        
+        <div class="game-over" id="gameOver">
+            <h2 id="gameOverTitle">🎉 Mission Complete! 🎉</h2>
+            <p id="gameOverMessage">You collected <span id="finalScore">0</span> space dollars!</p>
+            <p>You traveled through <span id="finalLevel">0</span> galaxies!</p>
+            <button class="restart-btn" onclick="restartGame()">🚀 New Adventure 🚀</button>
+        </div>
+
+        <div class="shop" id="shop">
+            <button class="close-shop" onclick="closeShop()">×</button>
+            <h2>🛸 GALACTIC SPACESHIP SHOP 🛸</h2>
+            <p style="text-align: center; margin-bottom: 10px;">
+                Your Wallet: 💰 <span id="wallet">0</span> Space Dollars
+            </p>
+            <p style="text-align: center; margin-bottom: 20px; font-size: 12px; color: #aaa;">
+                Press ESC or click × to return to adventure
+            </p>
+            <div class="ship-grid" id="shipGrid">
+                <!-- Ships will be generated here -->
+            </div>
+        </div>
+
+        <div class="achievements" id="achievements">
+            <button class="close-shop" onclick="closeAchievements()">×</button>
+            <h2>🏆 SPACE PILOT MISSIONS 🏆</h2>
+            <p style="text-align: center; margin-bottom: 20px; font-size: 12px; color: #aaa;">
+                Complete missions to earn bonus space dollars!
+            </p>
+            <div class="achievement-grid" id="achievementGrid">
+                <!-- Achievements will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Game variables
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        let score = 0;
+        let level = 1;
+        let gameRunning = true;
+        let keys = {};
+        let gameEndReason = 'complete'; // 'complete' or 'crashed'
+
+        // Galaxy background themes
+        const galaxyThemes = [
+            { // Galaxy 1 - Deep Space Blue
+                colors: ['#1a1a4d', '#0a0a2e'],
+                starColor: 'rgba(255, 255, 255, 0.8)',
+                name: 'Deep Space'
+            },
+            { // Galaxy 2 - Emerald Nebula
+                colors: ['#0d4d2d', '#051a0f'],
+                starColor: 'rgba(100, 255, 150, 0.8)',
+                name: 'Emerald Nebula'
+            },
+            { // Galaxy 3 - Crimson Galaxy
+                colors: ['#4d1a1a', '#2e0a0a'],
+                starColor: 'rgba(255, 150, 150, 0.8)',
+                name: 'Crimson Galaxy'
+            },
+            { // Galaxy 4 - Purple Void
+                colors: ['#4d1a4d', '#2e0a2e'],
+                starColor: 'rgba(255, 150, 255, 0.8)',
+                name: 'Purple Void'
+            },
+            { // Galaxy 5 - Golden Cosmos
+                colors: ['#4d4d1a', '#2e2e0a'],
+                starColor: 'rgba(255, 255, 150, 0.8)',
+                name: 'Golden Cosmos'
+            },
+            { // Galaxy 6 - Cyan Storm
+                colors: ['#1a4d4d', '#0a2e2e'],
+                starColor: 'rgba(150, 255, 255, 0.8)',
+                name: 'Cyan Storm'
+            },
+            { // Galaxy 7 - Magenta Expanse
+                colors: ['#4d1a3d', '#2e0a1d'],
+                starColor: 'rgba(255, 150, 200, 0.8)',
+                name: 'Magenta Expanse'
+            },
+            { // Galaxy 8 - Orange Frontier
+                colors: ['#4d3d1a', '#2e1d0a'],
+                starColor: 'rgba(255, 200, 150, 0.8)',
+                name: 'Orange Frontier'
+            }
+        ];
+
+        // Game objects
+        const player = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            width: 40,
+            height: 30,
+            speed: 5,
+            color: '#00ff88'
+        };
+
+        let dollars = [];
+        let particles = [];
+        let stars = [];
+        let asteroids = [];
+        let aliens = [];
+        let projectiles = [];
+        let shootCooldown = 0;
+        let boss = null;
+        let bossActive = false;
+
+        // Shop and spaceship system
+        let totalEarned = 0; // Total dollars ever earned (persistent currency)
+        let currentShip = 0; // Index of currently selected ship
+        let ownedShips = [0]; // Array of owned ship indices (start with ship 0)
+
+        // Spaceship data
+        const spaceships = [
+            {
+                name: "Basic Scout",
+                price: 0,
+                speed: 5,
+                fireRate: 10,
+                color: '#00ff88',
+                description: "Standard issue exploration vessel"
+            },
+            {
+                name: "Speed Demon",
+                price: 100,
+                speed: 7,
+                fireRate: 8,
+                color: '#ff4444',
+                description: "Fast and agile racing ship"
+            },
+            {
+                name: "Battle Cruiser",
+                price: 200,
+                speed: 4,
+                fireRate: 5,
+                color: '#4444ff',
+                description: "Heavy armored combat vessel"
+            },
+            {
+                name: "Stealth Fighter",
+                price: 300,
+                speed: 6,
+                fireRate: 6,
+                color: '#8800ff',
+                description: "Advanced stealth technology"
+            },
+            {
+                name: "Phoenix Wing",
+                price: 500,
+                speed: 8,
+                fireRate: 4,
+                color: '#ff8800',
+                description: "Legendary firebird design"
+            },
+            {
+                name: "Cosmic Dreadnought",
+                price: 800,
+                speed: 5,
+                fireRate: 3,
+                color: '#ffff00',
+                description: "Ultimate galactic destroyer"
+            }
+        ];
+
+        // Boss data
+        const bossTypes = [
+            {
+                name: "Alien Mothership",
+                health: 10,
+                width: 100,
+                height: 60,
+                speed: 1,
+                color: '#ff00ff',
+                points: 200,
+                type: 'mothership'
+            },
+            {
+                name: "Mega Asteroid",
+                health: 8,
+                width: 80,
+                height: 80,
+                speed: 1.5,
+                color: '#8B4513',
+                points: 150,
+                type: 'asteroid'
+            },
+            {
+                name: "Alien Commander",
+                health: 6,
+                width: 60,
+                height: 50,
+                speed: 2.5,
+                color: '#ff4400',
+                points: 250,
+                type: 'commander'
+            }
+        ];
+
+        // Health system
+        let playerHealth = 3;
+        let maxHealth = 3;
+        let invulnerable = false;
+        let invulnerabilityTime = 0;
+
+        // Achievements system
+        let aliensDestroyed = 0;
+        let asteroidsDestroyed = 0;
+        let bossesDefeated = 0;
+        let achievements = [];
+
+        // Achievement definitions
+        const achievementData = [
+            {
+                id: 'alien_hunter',
+                name: '👽 Alien Hunter',
+                description: 'Destroy 25 aliens',
+                target: 25,
+                type: 'aliens',
+                reward: 100,
+                icon: '👽'
+            },
+            {
+                id: 'rock_crusher',
+                name: '☄️ Rock Crusher',
+                description: 'Blast 50 asteroids',
+                target: 50,
+                type: 'asteroids',
+                reward: 75,
+                icon: '☄️'
+            },
+            {
+                id: 'millionaire',
+                name: '💰 Millionaire',
+                description: 'Collect 1000 space dollars',
+                target: 1000,
+                type: 'money',
+                reward: 500,
+                icon: '💰'
+            },
+            {
+                id: 'galaxy_explorer',
+                name: '🌌 Galaxy Explorer',
+                description: 'Reach Galaxy 10',
+                target: 10,
+                type: 'level',
+                reward: 200,
+                icon: '🌌'
+            },
+            {
+                id: 'boss_slayer',
+                name: '👑 Boss Slayer',
+                description: 'Defeat 3 bosses',
+                target: 3,
+                type: 'bosses',
+                reward: 300,
+                icon: '👑'
+            },
+            {
+                id: 'survivor',
+                name: '❤️ Survivor',
+                description: 'Play for 5 minutes straight',
+                target: 300, // 5 minutes at 60fps
+                type: 'time',
+                reward: 150,
+                icon: '❤️'
+            },
+            {
+                id: 'speed_demon',
+                name: '⚡ Speed Demon',
+                description: 'Reach Galaxy 5 without dying',
+                target: 5,
+                type: 'streak',
+                reward: 250,
+                icon: '⚡'
+            },
+            {
+                id: 'elite_pilot',
+                name: '🚀 Elite Pilot',
+                description: 'Reach Galaxy 15',
+                target: 15,
+                type: 'level',
+                reward: 400,
+                icon: '🚀'
+            }
+        ];
+
+        let survivalTime = 0;
+        let maxLevelReached = 1;
+
+        // Update player stats based on current ship
+        function updatePlayerStats() {
+            const ship = spaceships[currentShip];
+            player.speed = ship.speed + level * 0.5; // Base speed + level bonus
+            player.color = ship.color;
+        }
+
+        // Health system functions
+        function takeDamage() {
+            if (invulnerable) return false;
+            
+            playerHealth--;
+            invulnerable = true;
+            invulnerabilityTime = 120; // 2 seconds of invulnerability at 60fps
+            updateHeartsDisplay();
+            
+            if (playerHealth <= 0) {
+                gameRunning = false;
+                gameEndReason = 'crashed';
+                document.getElementById('finalScore').textContent = score;
+                document.getElementById('finalLevel').textContent = level;
+                updateGameOverScreen();
+                document.getElementById('gameOver').style.display = 'block';
+                return true;
+            }
+            return false;
+        }
+
+        function updateHeartsDisplay() {
+            const heartsElement = document.getElementById('hearts');
+            let heartsHTML = '';
+            
+            for (let i = 0; i < maxHealth; i++) {
+                if (i < playerHealth) {
+                    heartsHTML += '❤️';
+                } else {
+                    heartsHTML += '🖤'; // Black heart for lost health
+                }
+            }
+            
+            heartsElement.innerHTML = heartsHTML;
+        }
+
+        // Achievement functions
+        function checkAchievements() {
+            achievementData.forEach(achievement => {
+                if (achievements.includes(achievement.id)) return; // Already completed
+                
+                let current = 0;
+                switch (achievement.type) {
+                    case 'aliens':
+                        current = aliensDestroyed;
+                        break;
+                    case 'asteroids':
+                        current = asteroidsDestroyed;
+                        break;
+                    case 'money':
+                        current = totalEarned;
+                        break;
+                    case 'level':
+                        current = maxLevelReached;
+                        break;
+                    case 'bosses':
+                        current = bossesDefeated;
+                        break;
+                    case 'time':
+                        current = Math.floor(survivalTime / 60); // Convert to seconds
+                        break;
+                    case 'streak':
+                        current = level; // Current level as streak
+                        break;
+                }
+                
+                if (current >= achievement.target) {
+                    achievements.push(achievement.id);
+                    totalEarned += achievement.reward;
+                    showAchievementNotification(achievement);
+                }
+            });
+        }
+
+        function showAchievementNotification(achievement) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 255, 136, 0.9);
+                color: black;
+                padding: 15px;
+                border-radius: 10px;
+                font-family: 'Courier New', monospace;
+                font-weight: bold;
+                z-index: 1000;
+                animation: slideIn 0.5s ease;
+                min-width: 200px;
+                text-align: center;
+            `;
+            notification.innerHTML = `
+                🏆 MISSION COMPLETE! 🏆<br>
+                ${achievement.icon} ${achievement.name}<br>
+                💰 +${achievement.reward} Space Dollars!
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
+        }
+
+        // Create background stars
+        function createBackgroundStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 2 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Create moving stars in canvas
+        function createStars() {
+            for (let i = 0; i < 50; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 2 + 1,
+                    speed: Math.random() * 2 + 0.5
+                });
+            }
+        }
+
+        // Create dollar
+        function createDollar() {
+            dollars.push({
+                x: Math.random() * (canvas.width - 30),
+                y: Math.random() * (canvas.height - 30),
+                width: 25,
+                height: 25,
+                collected: false,
+                pulse: 0,
+                vx: (Math.random() - 0.5) * (2 + level * 0.5), // Horizontal velocity increases with level
+                vy: (Math.random() - 0.5) * (2 + level * 0.5)  // Vertical velocity increases with level
+            });
+        }
+
+        // Create asteroid
+        function createAsteroid() {
+            const size = Math.random() * 20 + 15; // Random size between 15-35
+            asteroids.push({
+                x: Math.random() * (canvas.width - size),
+                y: Math.random() * (canvas.height - size),
+                width: size,
+                height: size,
+                vx: (Math.random() - 0.5) * (1 + level * 0.3), // Speed increases with level
+                vy: (Math.random() - 0.5) * (1 + level * 0.3),
+                rotation: 0,
+                rotationSpeed: (Math.random() - 0.5) * 0.2
+            });
+        }
+
+        // Create alien
+        function createAlien() {
+            const size = 30;
+            aliens.push({
+                x: Math.random() * (canvas.width - size),
+                y: Math.random() * (canvas.height - size),
+                width: size,
+                height: size,
+                vx: (Math.random() - 0.5) * (1.5 + level * 0.2),
+                vy: (Math.random() - 0.5) * (1.5 + level * 0.2),
+                health: 1,
+                pulse: 0
+            });
+        }
+
+        // Create boss
+        function createBoss() {
+            if (bossActive) return;
+            
+            const bossTypeIndex = Math.floor((level - 1) / 5) % bossTypes.length;
+            const bossTemplate = bossTypes[bossTypeIndex];
+            
+            boss = {
+                ...bossTemplate,
+                x: canvas.width / 2 - bossTemplate.width / 2,
+                y: 50,
+                vx: bossTemplate.speed,
+                vy: 0,
+                maxHealth: bossTemplate.health,
+                currentHealth: bossTemplate.health,
+                pulse: 0,
+                direction: 1,
+                attackCooldown: 0
+            };
+            
+            bossActive = true;
+            
+            // Clear other enemies during boss fight
+            aliens = [];
+            asteroids = [];
+        }
+
+        // Create projectile
+        function createProjectile() {
+            projectiles.push({
+                x: player.x + player.width/2 - 2,
+                y: player.y,
+                width: 4,
+                height: 10,
+                speed: 8,
+                color: '#00ff00'
+            });
+        }
+
+        // Create particle effect
+        function createParticles(x, y) {
+            for (let i = 0; i < 10; i++) {
+                particles.push({
+                    x: x,
+                    y: y,
+                    vx: (Math.random() - 0.5) * 10,
+                    vy: (Math.random() - 0.5) * 10,
+                    life: 30,
+                    color: `hsl(${Math.random() * 60 + 30}, 100%, 50%)`
+                });
+            }
+        }
+
+        // Draw spaceship
+        function drawPlayer() {
+            // Flashing effect when invulnerable
+            if (invulnerable && Math.floor(invulnerabilityTime / 10) % 2 === 0) {
+                return; // Skip drawing to create flashing effect
+            }
+            
+            ctx.save();
+            ctx.translate(player.x + player.width/2, player.y + player.height/2);
+            
+            // Spaceship body
+            ctx.fillStyle = player.color;
+            ctx.beginPath();
+            ctx.moveTo(0, -15);
+            ctx.lineTo(-15, 10);
+            ctx.lineTo(-5, 5);
+            ctx.lineTo(5, 5);
+            ctx.lineTo(15, 10);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Engine glow
+            ctx.fillStyle = '#ff4444';
+            ctx.beginPath();
+            ctx.ellipse(0, 8, 8, 3, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Cockpit
+            ctx.fillStyle = '#4444ff';
+            ctx.beginPath();
+            ctx.ellipse(0, -5, 6, 4, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+        }
+
+        // Draw dollar
+        function drawDollar(dollar) {
+            dollar.pulse += 0.2;
+            const scale = 1 + Math.sin(dollar.pulse) * 0.2;
+            
+            ctx.save();
+            ctx.translate(dollar.x + dollar.width/2, dollar.y + dollar.height/2);
+            ctx.scale(scale, scale);
+            
+            // Dollar sign
+            ctx.fillStyle = '#ffdd44';
+            ctx.font = '20px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText('💰', 0, 5);
+            
+            // Glow effect
+            ctx.shadowColor = '#ffdd44';
+            ctx.shadowBlur = 10;
+            ctx.fillText('💰', 0, 5);
+            
+            ctx.restore();
+        }
+
+        // Draw asteroid
+        function drawAsteroid(asteroid) {
+            asteroid.rotation += asteroid.rotationSpeed;
+            
+            ctx.save();
+            ctx.translate(asteroid.x + asteroid.width/2, asteroid.y + asteroid.height/2);
+            ctx.rotate(asteroid.rotation);
+            
+            // Asteroid body - rough rocky shape
+            ctx.fillStyle = '#8B4513';
+            ctx.beginPath();
+            const sides = 8;
+            for (let i = 0; i < sides; i++) {
+                const angle = (i / sides) * Math.PI * 2;
+                const radius = asteroid.width/2 * (0.8 + Math.sin(angle * 3) * 0.2);
+                const x = Math.cos(angle) * radius;
+                const y = Math.sin(angle) * radius;
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.closePath();
+            ctx.fill();
+            
+            // Asteroid highlights
+            ctx.fillStyle = '#CD853F';
+            ctx.beginPath();
+            ctx.arc(-asteroid.width/4, -asteroid.width/4, asteroid.width/8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Asteroid shadow
+            ctx.fillStyle = '#654321';
+            ctx.beginPath();
+            ctx.arc(asteroid.width/4, asteroid.width/4, asteroid.width/10, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+        }
+
+        // Draw alien
+        function drawAlien(alien) {
+            alien.pulse += 0.15;
+            const scale = 1 + Math.sin(alien.pulse) * 0.1;
+            
+            ctx.save();
+            ctx.translate(alien.x + alien.width/2, alien.y + alien.height/2);
+            ctx.scale(scale, scale);
+            
+            // Alien body (UFO shape)
+            ctx.fillStyle = '#666666';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 15, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Alien dome
+            ctx.fillStyle = '#4444ff';
+            ctx.beginPath();
+            ctx.ellipse(0, -3, 10, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Alien lights
+            ctx.fillStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.arc(-8, 2, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.beginPath();
+            ctx.arc(0, 2, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffff00';
+            ctx.beginPath();
+            ctx.arc(8, 2, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Alien glow
+            ctx.shadowColor = '#4444ff';
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#4444ff';
+            ctx.beginPath();
+            ctx.ellipse(0, -3, 10, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+        }
+
+        // Draw projectile
+        function drawProjectile(projectile) {
+            ctx.fillStyle = projectile.color;
+            ctx.shadowColor = projectile.color;
+            ctx.shadowBlur = 5;
+            ctx.fillRect(projectile.x, projectile.y, projectile.width, projectile.height);
+            ctx.shadowBlur = 0;
+        }
+
+        // Draw boss
+        function drawBoss() {
+            if (!boss) return;
+            
+            boss.pulse += 0.1;
+            const scale = 1 + Math.sin(boss.pulse) * 0.05;
+            
+            ctx.save();
+            ctx.translate(boss.x + boss.width/2, boss.y + boss.height/2);
+            ctx.scale(scale, scale);
+            
+            if (boss.type === 'mothership') {
+                // Alien Mothership
+                ctx.fillStyle = boss.color;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, boss.width/2, boss.height/2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Dome
+                ctx.fillStyle = '#4444ff';
+                ctx.beginPath();
+                ctx.ellipse(0, -10, boss.width/3, boss.height/4, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Weapons
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(-boss.width/2 + 10, 0, 8, 4);
+                ctx.fillRect(boss.width/2 - 18, 0, 8, 4);
+                
+            } else if (boss.type === 'asteroid') {
+                // Mega Asteroid
+                ctx.fillStyle = boss.color;
+                ctx.beginPath();
+                const sides = 12;
+                for (let i = 0; i < sides; i++) {
+                    const angle = (i / sides) * Math.PI * 2;
+                    const radius = boss.width/2 * (0.8 + Math.sin(angle * 4) * 0.2);
+                    const x = Math.cos(angle) * radius;
+                    const y = Math.sin(angle) * radius;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+                ctx.fill();
+                
+                // Craters
+                ctx.fillStyle = '#654321';
+                ctx.beginPath();
+                ctx.arc(-boss.width/4, -boss.width/4, 8, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.beginPath();
+                ctx.arc(boss.width/4, boss.width/4, 6, 0, Math.PI * 2);
+                ctx.fill();
+                
+            } else if (boss.type === 'commander') {
+                // Alien Commander
+                ctx.fillStyle = boss.color;
+                ctx.beginPath();
+                ctx.moveTo(0, -boss.height/2);
+                ctx.lineTo(-boss.width/2, boss.height/2);
+                ctx.lineTo(boss.width/2, boss.height/2);
+                ctx.closePath();
+                ctx.fill();
+                
+                // Commander shield
+                ctx.strokeStyle = '#00ffff';
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(0, 0, boss.width/2 + 5, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Boss glow effect
+            ctx.shadowColor = boss.color;
+            ctx.shadowBlur = 20;
+            ctx.fillStyle = boss.color;
+            ctx.globalAlpha = 0.3;
+            ctx.fillRect(-boss.width/2, -boss.height/2, boss.width, boss.height);
+            ctx.globalAlpha = 1;
+            
+            ctx.restore();
+            
+            // Health bar
+            const barWidth = boss.width;
+            const barHeight = 8;
+            const barX = boss.x;
+            const barY = boss.y - 20;
+            
+            // Background
+            ctx.fillStyle = '#333';
+            ctx.fillRect(barX, barY, barWidth, barHeight);
+            
+            // Health
+            const healthPercent = boss.currentHealth / boss.maxHealth;
+            ctx.fillStyle = healthPercent > 0.5 ? '#00ff00' : healthPercent > 0.25 ? '#ffff00' : '#ff0000';
+            ctx.fillRect(barX, barY, barWidth * healthPercent, barHeight);
+            
+            // Border
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(barX, barY, barWidth, barHeight);
+            
+            // Boss name
+            ctx.fillStyle = '#fff';
+            ctx.font = '16px Courier New';
+            ctx.textAlign = 'center';
+            ctx.fillText(boss.name, boss.x + boss.width/2, barY - 5);
+        }
+
+        // Draw stars
+        function drawStars() {
+            const currentTheme = galaxyThemes[(level - 1) % galaxyThemes.length];
+            
+            stars.forEach(star => {
+                ctx.fillStyle = currentTheme.starColor.replace('0.8', `${Math.random() * 0.8 + 0.2}`);
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                star.y += star.speed;
+                if (star.y > canvas.height) {
+                    star.y = -star.size;
+                    star.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        // Draw particles
+        function drawParticles() {
+            particles.forEach((particle, index) => {
+                ctx.fillStyle = particle.color;
+                ctx.globalAlpha = particle.life / 30;
+                ctx.fillRect(particle.x, particle.y, 2, 2);
+                ctx.globalAlpha = 1;
+                
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+                particle.life--;
+                
+                if (particle.life <= 0) {
+                    particles.splice(index, 1);
+                }
+            });
+        }
+
+        // Check collision
+        function checkCollision(rect1, rect2) {
+            return rect1.x < rect2.x + rect2.width &&
+                   rect1.x + rect1.width > rect2.x &&
+                   rect1.y < rect2.y + rect2.height &&
+                   rect1.y + rect1.height > rect2.y;
+        }
+
+        // Update game
+        function update() {
+            if (!gameRunning) return;
+            
+            // Handle invulnerability timer
+            if (invulnerable) {
+                invulnerabilityTime--;
+                if (invulnerabilityTime <= 0) {
+                    invulnerable = false;
+                }
+            }
+            
+            // Decrease shoot cooldown
+            if (shootCooldown > 0) shootCooldown--;
+            
+            // Player movement
+            if (keys['ArrowUp'] || keys['w']) player.y = Math.max(0, player.y - player.speed);
+            if (keys['ArrowDown'] || keys['s']) player.y = Math.min(canvas.height - player.height, player.y + player.speed);
+            if (keys['ArrowLeft'] || keys['a']) player.x = Math.max(0, player.x - player.speed);
+            if (keys['ArrowRight'] || keys['d']) player.x = Math.min(canvas.width - player.width, player.x + player.speed);
+            
+            // Shooting
+            if (keys[' '] && shootCooldown === 0) {
+                createProjectile();
+                shootCooldown = spaceships[currentShip].fireRate; // Use ship's fire rate
+            }
+            
+            // Update projectiles
+            projectiles.forEach((projectile, index) => {
+                projectile.y -= projectile.speed;
+                if (projectile.y < -projectile.height) {
+                    projectiles.splice(index, 1);
+                }
+            });
+            
+            // Update alien positions
+            aliens.forEach(alien => {
+                alien.x += alien.vx;
+                alien.y += alien.vy;
+                
+                // Bounce off walls
+                if (alien.x <= 0 || alien.x >= canvas.width - alien.width) {
+                    alien.vx = -alien.vx;
+                }
+                if (alien.y <= 0 || alien.y >= canvas.height - alien.height) {
+                    alien.vy = -alien.vy;
+                }
+                
+                // Keep aliens within bounds
+                alien.x = Math.max(0, Math.min(canvas.width - alien.width, alien.x));
+                alien.y = Math.max(0, Math.min(canvas.height - alien.height, alien.y));
+            });
+            
+            // Check projectile-alien collisions
+            projectiles.forEach((projectile, pIndex) => {
+                aliens.forEach((alien, aIndex) => {
+                    if (checkCollision(projectile, alien)) {
+                        // Alien destroyed!
+                        createParticles(alien.x + alien.width/2, alien.y + alien.height/2);
+                        aliens.splice(aIndex, 1);
+                        projectiles.splice(pIndex, 1);
+                        score += 25; // More points for aliens!
+                        totalEarned += 25; // Track total for shop
+                        aliensDestroyed++;
+                    }
+                });
+            });
+            
+            // Check projectile-asteroid collisions
+            projectiles.forEach((projectile, pIndex) => {
+                asteroids.forEach((asteroid, aIndex) => {
+                    if (checkCollision(projectile, asteroid)) {
+                        // Asteroid destroyed!
+                        createParticles(asteroid.x + asteroid.width/2, asteroid.y + asteroid.height/2);
+                        asteroids.splice(aIndex, 1);
+                        projectiles.splice(pIndex, 1);
+                        score += 15; // Points for asteroids!
+                        totalEarned += 15; // Track total for shop
+                        asteroidsDestroyed++;
+                    }
+                });
+            });
+            
+            // Check alien collision with player
+            aliens.forEach(alien => {
+                if (checkCollision(player, alien)) {
+                    takeDamage();
+                }
+            });
+            
+            // Update dollar positions
+            dollars.forEach(dollar => {
+                dollar.x += dollar.vx;
+                dollar.y += dollar.vy;
+                
+                // Bounce off walls
+                if (dollar.x <= 0 || dollar.x >= canvas.width - dollar.width) {
+                    dollar.vx = -dollar.vx;
+                }
+                if (dollar.y <= 0 || dollar.y >= canvas.height - dollar.height) {
+                    dollar.vy = -dollar.vy;
+                }
+                
+                // Keep dollars within bounds
+                dollar.x = Math.max(0, Math.min(canvas.width - dollar.width, dollar.x));
+                dollar.y = Math.max(0, Math.min(canvas.height - dollar.height, dollar.y));
+            });
+            
+            // Update asteroid positions
+            asteroids.forEach(asteroid => {
+                asteroid.x += asteroid.vx;
+                asteroid.y += asteroid.vy;
+                
+                // Bounce off walls
+                if (asteroid.x <= 0 || asteroid.x >= canvas.width - asteroid.width) {
+                    asteroid.vx = -asteroid.vx;
+                }
+                if (asteroid.y <= 0 || asteroid.y >= canvas.height - asteroid.height) {
+                    asteroid.vy = -asteroid.vy;
+                }
+                
+                // Keep asteroids within bounds
+                asteroid.x = Math.max(0, Math.min(canvas.width - asteroid.width, asteroid.x));
+                asteroid.y = Math.max(0, Math.min(canvas.height - asteroid.height, asteroid.y));
+            });
+            
+            // Check asteroid collision with player
+            asteroids.forEach(asteroid => {
+                if (checkCollision(player, asteroid)) {
+                    takeDamage();
+                }
+            });
+            
+            // Check dollar collection
+            dollars.forEach((dollar, index) => {
+                if (!dollar.collected && checkCollision(player, dollar)) {
+                    dollar.collected = true;
+                    score += 10;
+                    totalEarned += 10; // Track total for shop
+                    createParticles(dollar.x + dollar.width/2, dollar.y + dollar.height/2);
+                    dollars.splice(index, 1);
+                    
+                    // Level up every 100 points
+                    if (score % 100 === 0) {
+                        level++;
+                        updatePlayerStats(); // Update ship stats for new level
+                        
+                        // Update existing dollars to move faster
+                        dollars.forEach(d => {
+                            d.vx = d.vx > 0 ? Math.abs(d.vx) + 0.5 : -(Math.abs(d.vx) + 0.5);
+                            d.vy = d.vy > 0 ? Math.abs(d.vy) + 0.5 : -(Math.abs(d.vy) + 0.5);
+                        });
+                    }
+                }
+            });
+            
+            // Create new dollars
+            if (dollars.length < 5 + level) {
+                createDollar();
+            }
+            
+            // Create new asteroids
+            if (!bossActive && asteroids.length < 2 + Math.floor(level / 2)) {
+                createAsteroid();
+            }
+            
+            // Create new aliens
+            if (!bossActive && aliens.length < 1 + Math.floor(level / 3)) {
+                createAlien();
+            }
+            
+            // Boss logic
+            if (level % 5 === 0 && level > 0 && !bossActive) {
+                createBoss();
+            }
+            
+            if (boss && bossActive) {
+                // Boss movement
+                boss.x += boss.vx * boss.direction;
+                
+                // Bounce boss off walls
+                if (boss.x <= 0 || boss.x >= canvas.width - boss.width) {
+                    boss.direction *= -1;
+                }
+                
+                // Special movement patterns
+                if (boss.type === 'commander') {
+                    boss.y += Math.sin(boss.pulse * 2) * 0.5;
+                } else if (boss.type === 'asteroid') {
+                    boss.y += Math.sin(boss.pulse) * 0.3;
+                }
+                
+                // Keep boss in bounds
+                boss.x = Math.max(0, Math.min(canvas.width - boss.width, boss.x));
+                boss.y = Math.max(30, Math.min(150, boss.y));
+                
+                // Check projectile-boss collisions
+                projectiles.forEach((projectile, pIndex) => {
+                    if (checkCollision(projectile, boss)) {
+                        boss.currentHealth--;
+                        createParticles(projectile.x, projectile.y);
+                        projectiles.splice(pIndex, 1);
+                        
+                        if (boss.currentHealth <= 0) {
+                            // Boss defeated!
+                            createParticles(boss.x + boss.width/2, boss.y + boss.height/2);
+                            score += boss.points;
+                            totalEarned += boss.points;
+                            bossesDefeated++;
+                            boss = null;
+                            bossActive = false;
+                        }
+                    }
+                });
+                
+                // Check boss collision with player
+                if (checkCollision(player, boss)) {
+                    takeDamage();
+                }
+            }
+            
+            // Update UI
+            document.getElementById('score').textContent = score;
+            document.getElementById('wallet').textContent = totalEarned;
+            
+            // Update galaxy name display
+            const currentTheme = galaxyThemes[(level - 1) % galaxyThemes.length];
+            const levelElement = document.getElementById('level');
+            levelElement.innerHTML = `${level} - ${currentTheme.name}`;
+            
+            // Track survival time and max level
+            if (gameRunning) {
+                survivalTime++;
+                maxLevelReached = Math.max(maxLevelReached, level);
+            }
+            
+            // Check achievements
+            checkAchievements();
+        }
+
+        // Draw everything
+        function draw() {
+            // Get current galaxy theme
+            const currentTheme = galaxyThemes[(level - 1) % galaxyThemes.length];
+            
+            // Clear canvas with galaxy-specific gradient
+            const gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width);
+            gradient.addColorStop(0, currentTheme.colors[0]);
+            gradient.addColorStop(1, currentTheme.colors[1]);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            drawStars();
+            drawPlayer();
+            
+            dollars.forEach(drawDollar);
+            asteroids.forEach(drawAsteroid);
+            aliens.forEach(drawAlien);
+            projectiles.forEach(drawProjectile);
+            drawBoss();
+            drawParticles();
+        }
+
+        // Game loop
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            keys[e.key] = true;
+            
+            // ESC key to close shop and achievements
+            if (e.key === 'Escape') {
+                closeShop();
+                closeAchievements();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            keys[e.key] = false;
+        });
+
+        // Update game over screen based on how game ended
+        function updateGameOverScreen() {
+            const title = document.getElementById('gameOverTitle');
+            const message = document.getElementById('gameOverMessage');
+            
+            if (gameEndReason === 'crashed') {
+                title.textContent = '💥 CRASHED! 💥';
+                title.style.color = '#ff4444';
+                message.innerHTML = `💀 Your spaceship was destroyed!<br>You collected <span id="finalScore">${score}</span> space dollars before the crash!`;
+            } else {
+                title.textContent = '🎉 Mission Complete! 🎉';
+                title.style.color = '#ffdd44';
+                message.innerHTML = `You collected <span id="finalScore">${score}</span> space dollars!`;
+            }
+        }
+
+        // Restart game
+        function restartGame() {
+            score = 0;
+            level = 1;
+            player.x = canvas.width / 2;
+            player.y = canvas.height / 2;
+            updatePlayerStats(); // Use current ship stats
+            dollars = [];
+            particles = [];
+            asteroids = [];
+            aliens = [];
+            projectiles = [];
+            shootCooldown = 0;
+            boss = null;
+            bossActive = false;
+            playerHealth = maxHealth;
+            invulnerable = false;
+            invulnerabilityTime = 0;
+            gameRunning = true;
+            gameEndReason = 'complete';
+            updateHeartsDisplay();
+            document.getElementById('gameOver').style.display = 'none';
+            aliensDestroyed = 0;
+            asteroidsDestroyed = 0;
+            bossesDefeated = 0;
+            achievements = [];
+            survivalTime = 0;
+            maxLevelReached = 1;
+        }
+
+        // Shop functions
+        function openShop() {
+            generateShopGrid();
+            document.getElementById('shop').style.display = 'block';
+        }
+
+        function closeShop() {
+            document.getElementById('shop').style.display = 'none';
+        }
+
+        function generateShopGrid() {
+            const shopGrid = document.getElementById('shipGrid');
+            shopGrid.innerHTML = '';
+
+            spaceships.forEach((ship, index) => {
+                const shipCard = document.createElement('div');
+                shipCard.className = 'ship-card';
+                
+                // Add classes for owned and selected ships
+                if (ownedShips.includes(index)) {
+                    shipCard.classList.add('owned');
+                }
+                if (index === currentShip) {
+                    shipCard.classList.add('selected');
+                }
+
+                const preview = document.createElement('div');
+                preview.className = 'ship-preview';
+                preview.style.background = `linear-gradient(45deg, ${ship.color}, #000)`;
+
+                const canAfford = totalEarned >= ship.price;
+                const isOwned = ownedShips.includes(index);
+
+                shipCard.innerHTML = `
+                    <div class="ship-name">${ship.name}</div>
+                    <div class="ship-stats">
+                        Speed: ${ship.speed} | Fire Rate: ${11 - ship.fireRate}/10
+                    </div>
+                    <div class="ship-stats">${ship.description}</div>
+                    <div class="ship-price">${ship.price === 0 ? 'FREE' : '💰 ' + ship.price}</div>
+                `;
+
+                shipCard.prepend(preview);
+
+                if (isOwned) {
+                    if (index === currentShip) {
+                        shipCard.innerHTML += '<button class="select-btn" disabled>EQUIPPED</button>';
+                    } else {
+                        shipCard.innerHTML += `<button class="select-btn" onclick="selectShip(${index})">EQUIP</button>`;
+                    }
+                } else {
+                    const buyBtn = document.createElement('button');
+                    buyBtn.className = 'buy-btn';
+                    buyBtn.textContent = 'BUY';
+                    buyBtn.disabled = !canAfford;
+                    buyBtn.onclick = () => buyShip(index);
+                    shipCard.appendChild(buyBtn);
+                }
+
+                shopGrid.appendChild(shipCard);
+            });
+        }
+
+        function buyShip(shipIndex) {
+            const ship = spaceships[shipIndex];
+            if (totalEarned >= ship.price && !ownedShips.includes(shipIndex)) {
+                totalEarned -= ship.price;
+                ownedShips.push(shipIndex);
+                document.getElementById('wallet').textContent = totalEarned;
+                generateShopGrid(); // Refresh the shop
+            }
+        }
+
+        function selectShip(shipIndex) {
+            if (ownedShips.includes(shipIndex)) {
+                currentShip = shipIndex;
+                updatePlayerStats();
+                generateShopGrid(); // Refresh the shop
+            }
+        }
+
+        // Achievements functions
+        function openAchievements() {
+            generateAchievementGrid();
+            document.getElementById('achievements').style.display = 'block';
+        }
+
+        function closeAchievements() {
+            document.getElementById('achievements').style.display = 'none';
+        }
+
+        function generateAchievementGrid() {
+            const achievementGrid = document.getElementById('achievementGrid');
+            achievementGrid.innerHTML = '';
+
+            achievementData.forEach(achievement => {
+                const achievementCard = document.createElement('div');
+                achievementCard.className = 'achievement-card';
+                
+                const isCompleted = achievements.includes(achievement.id);
+                if (isCompleted) {
+                    achievementCard.classList.add('completed');
+                }
+
+                let current = 0;
+                switch (achievement.type) {
+                    case 'aliens':
+                        current = aliensDestroyed;
+                        break;
+                    case 'asteroids':
+                        current = asteroidsDestroyed;
+                        break;
+                    case 'money':
+                        current = totalEarned;
+                        break;
+                    case 'level':
+                        current = maxLevelReached;
+                        break;
+                    case 'bosses':
+                        current = bossesDefeated;
+                        break;
+                    case 'time':
+                        current = Math.floor(survivalTime / 60);
+                        break;
+                    case 'streak':
+                        current = level;
+                        break;
+                }
+
+                const progress = Math.min(current / achievement.target * 100, 100);
+
+                achievementCard.innerHTML = `
+                    <div class="achievement-icon">${achievement.icon}</div>
+                    <div class="achievement-name">${achievement.name}</div>
+                    <div class="achievement-desc">${achievement.description}</div>
+                    <div class="achievement-progress">${current}/${achievement.target}</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                    <div class="achievement-reward">
+                        ${isCompleted ? '✅ COMPLETED!' : `💰 Reward: ${achievement.reward}`}
+                    </div>
+                `;
+
+                achievementGrid.appendChild(achievementCard);
+            });
+        }
+
+        // Initialize game
+        updatePlayerStats(); // Set initial ship stats
+        updateHeartsDisplay(); // Initialize hearts display
+        createBackgroundStars();
+        createStars();
+        for (let i = 0; i < 3; i++) {
+            createDollar();
+        }
+        for (let i = 0; i < 2; i++) {
+            createAsteroid();
+        }
+        for (let i = 0; i < 1; i++) {
+            createAlien();
+        }
+        gameLoop();
+    </script>
+</body>
+</html> 
