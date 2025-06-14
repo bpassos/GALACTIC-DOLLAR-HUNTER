@@ -552,9 +552,11 @@
         <h2>⏸️ GAME PAUSED ⏸️</h2>
         <button onclick="resumeGame()">▶️ Resume Game</button>
         <button onclick="restartGame()">🔄 Restart Game</button>
-        <button onclick="openShop()">🛸 Visit Shop</button>
+        <button onclick="openShop()">🛸 Visit Ship Shop</button>
+        <button onclick="openWeaponsShop()">⚔️ Visit Weapons Shop</button>
         <button onclick="openAchievements()">🏆 View Missions</button>
         <button onclick="toggleSound()">🔊 Toggle Sound</button>
+        <p style="color: #aaa; font-size: 12px; margin-top: 15px;">Press ESC to resume game</p>
     </div>
 
     <script>
@@ -1504,10 +1506,18 @@
         function openWeaponsShop() {
             generateWeaponGrid();
             document.getElementById('weaponsShop').style.display = 'block';
+            // Hide pause menu when opening weapons shop
+            document.getElementById('pauseMenu').style.display = 'none';
+            document.getElementById('pauseOverlay').style.display = 'none';
         }
 
         function closeWeaponsShop() {
             document.getElementById('weaponsShop').style.display = 'none';
+            // Show pause menu again if game is paused
+            if (isPaused) {
+                document.getElementById('pauseMenu').style.display = 'block';
+                document.getElementById('pauseOverlay').style.display = 'block';
+            }
         }
 
         function generateWeaponGrid() {
@@ -2784,13 +2794,23 @@
             if (e.key === 'p' || e.key === 'P') {
                 togglePause();
             }
-            keys[e.key] = true;
             
-            // ESC key to close shop and achievements
+            // ESC key to toggle pause and close menus
             if (e.key === 'Escape') {
-                closeShop();
-                closeAchievements();
+                // If any menu is open, close it first
+                if (document.getElementById('shop').style.display === 'block') {
+                    closeShop();
+                } else if (document.getElementById('weaponsShop').style.display === 'block') {
+                    closeWeaponsShop();
+                } else if (document.getElementById('achievements').style.display === 'block') {
+                    closeAchievements();
+                } else {
+                    // No menu open, toggle pause
+                    togglePause();
+                }
             }
+            
+            keys[e.key] = true;
         });
 
         document.addEventListener('keyup', (e) => {
@@ -2850,10 +2870,18 @@
         function openShop() {
             generateShopGrid();
             document.getElementById('shop').style.display = 'block';
+            // Hide pause menu when opening shop
+            document.getElementById('pauseMenu').style.display = 'none';
+            document.getElementById('pauseOverlay').style.display = 'none';
         }
 
         function closeShop() {
             document.getElementById('shop').style.display = 'none';
+            // Show pause menu again if game is paused
+            if (isPaused) {
+                document.getElementById('pauseMenu').style.display = 'block';
+                document.getElementById('pauseOverlay').style.display = 'block';
+            }
         }
 
         function generateShopGrid() {
@@ -2933,10 +2961,18 @@
         function openAchievements() {
             generateAchievementGrid();
             document.getElementById('achievements').style.display = 'block';
+            // Hide pause menu when opening achievements
+            document.getElementById('pauseMenu').style.display = 'none';
+            document.getElementById('pauseOverlay').style.display = 'none';
         }
 
         function closeAchievements() {
             document.getElementById('achievements').style.display = 'none';
+            // Show pause menu again if game is paused
+            if (isPaused) {
+                document.getElementById('pauseMenu').style.display = 'block';
+                document.getElementById('pauseOverlay').style.display = 'block';
+            }
         }
 
         function generateAchievementGrid() {
