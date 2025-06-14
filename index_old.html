@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -330,146 +330,191 @@
             background: rgba(255, 221, 68, 0.4);
         }
 
-        /* Screen shake animation */
-        @keyframes shake {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(-8px, -8px) rotate(-2deg); }
-            50% { transform: translate(8px, 8px) rotate(2deg); }
-            75% { transform: translate(-8px, 8px) rotate(-2deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+        /* Touch Controls Styles */
+        .touch-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: none;
+            z-index: 1000;
         }
 
-        .shake {
-            animation: shake 0.15s ease-in-out;
+        .control-pad {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
-        /* Parallax background */
-        .parallax-bg {
-    </style>
+        .dpad {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 60px;
+            border: 2px solid #ffdd44;
+        }
 
-    <style>
-        .pause-menu {
+        .dpad-button {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            border: 3px solid #ffdd44;
-            text-align: center;
-            display: none;
-            z-index: 1000;
-        }
-
-        .pause-menu h2 {
-            color: #ffdd44;
-            margin-bottom: 20px;
-        }
-
-        .pause-btn {
-            background: rgba(255, 221, 68, 0.2);
-            color: #ffdd44;
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 221, 68, 0.7);
             border: 2px solid #ffdd44;
-            padding: 8px 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            margin-left: 10px;
-        }
-
-        .pause-btn:hover {
-            background: rgba(255, 221, 68, 0.4);
-        }
-
-        .pause-menu button {
-            background: #ffdd44;
-            color: #000;
-            border: none;
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
-        }
-
-        .pause-menu button:hover {
-            background: #fff;
-            transform: scale(1.05);
-        }
-    </style>
-
-    <style>
-        .pause-menu {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            border: 3px solid #ffdd44;
-            text-align: center;
-            display: none;
-            z-index: 1000;
-            min-width: 300px;
-        }
-
-        .pause-menu h2 {
-            color: #ffdd44;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        .pause-btn {
-            background: rgba(255, 221, 68, 0.2);
-            color: #ffdd44;
-            border: 2px solid #ffdd44;
-            padding: 8px 15px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            margin-left: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .pause-btn:hover {
-            background: rgba(255, 221, 68, 0.4);
-            transform: scale(1.05);
-        }
-
-        .pause-menu button {
-            background: #ffdd44;
-            color: #000;
-            border: none;
-            padding: 12px 24px;
-            margin: 8px;
-            border-radius: 15px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            font-weight: bold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 16px;
-            transition: all 0.3s ease;
-            display: block;
-            width: 200px;
-            margin: 10px auto;
+            font-weight: bold;
+            color: #000;
+            user-select: none;
+            touch-action: manipulation;
         }
 
-        .pause-menu button:hover {
-            background: #fff;
-            transform: scale(1.05);
+        .dpad-up {
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .pause-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: none;
-            z-index: 999;
+        .dpad-down {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dpad-left {
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .dpad-right {
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .fire-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 68, 68, 0.8);
+            border: 3px solid #ff4444;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            user-select: none;
+            touch-action: manipulation;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .dpad-button:active, .fire-button:active {
+            transform: scale(0.9);
+            opacity: 0.8;
+        }
+
+        .dpad-left:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .dpad-right:active {
+            transform: translateY(-50%) scale(0.9);
+        }
+
+        .dpad-up:active {
+            transform: translateX(-50%) scale(0.9);
+        }
+
+        .dpad-down:active {
+            transform: translateX(-50%) scale(0.9);
+        }
+
+        /* Show touch controls on touch devices */
+        @media (hover: none) {
+            .touch-controls {
+                display: block;
+            }
+            
+            .controls {
+                display: none;
+            }
+            
+            .desktop-instructions {
+                display: none;
+            }
+            
+            .touch-instructions {
+                display: inline !important;
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #gameCanvas {
+                width: 95vw;
+                max-width: 400px;
+                height: auto;
+            }
+            
+            .game-title {
+                font-size: 24px;
+            }
+            
+            .score-board {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .shop, .achievements {
+                width: 95vw;
+                max-width: 500px;
+            }
+            
+            .touch-controls {
+                bottom: 10px;
+            }
+            
+            .dpad {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .dpad-button {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .fire-button {
+                width: 70px;
+                height: 70px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-title {
+                font-size: 20px;
+            }
+            
+            .control-pad {
+                gap: 15px;
+            }
+            
+            .dpad {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .fire-button {
+                width: 60px;
+                height: 60px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
@@ -485,16 +530,19 @@
                 <div class="score">❤️ Health: <span id="hearts">❤️❤️❤️</span></div>
                 <button class="shop-btn" onclick="openShop()">🛸 Shop</button>
                 <button class="achievements-btn" onclick="openAchievements()">🏆 Missions</button>
-                <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔊 Sound</button>
-                <button class="pause-btn" onclick="togglePause()" id="pauseBtn">⏸️ Pause</button>
             </div>
         </div>
         
         <canvas id="gameCanvas" width="800" height="500"></canvas>
         
         <div class="controls">
-            Use ARROW KEYS or WASD to move your spaceship and collect dollars! 🛸💸<br>
-            Press SPACEBAR to shoot laser beams at aliens and asteroids! 🔫👽☄️
+            <span class="desktop-instructions">
+                Use ARROW KEYS or WASD to move your spaceship and collect dollars! 🛸💸<br>
+                Press SPACEBAR to shoot laser beams at aliens and asteroids! 🔫👽☄️
+            </span>
+            <span class="touch-instructions" style="display: none;">
+                🎮 TOUCH CONTROLS: Drag on screen to move • Use D-pad • Tap fire button • Double-tap to shoot! 📱✨
+            </span>
         </div>
         
         <div class="game-over" id="gameOver">
@@ -530,15 +578,16 @@
         </div>
     </div>
 
-    <div class="pause-overlay" id="pauseOverlay"></div>
-
-    <div class="pause-menu" id="pauseMenu">
-        <h2>⏸️ GAME PAUSED ⏸️</h2>
-        <button onclick="resumeGame()">▶️ Resume Game</button>
-        <button onclick="restartGame()">🔄 Restart Game</button>
-        <button onclick="openShop()">🛸 Visit Shop</button>
-        <button onclick="openAchievements()">🏆 View Missions</button>
-        <button onclick="toggleSound()">🔊 Toggle Sound</button>
+    <div class="touch-controls" id="touchControls">
+        <div class="control-pad">
+            <div class="dpad">
+                <div class="dpad-button dpad-up">↑</div>
+                <div class="dpad-button dpad-down">↓</div>
+                <div class="dpad-button dpad-left">←</div>
+                <div class="dpad-button dpad-right">→</div>
+            </div>
+            <div class="fire-button">🔫</div>
+        </div>
     </div>
 
     <script>
@@ -550,325 +599,50 @@
         let gameRunning = true;
         let keys = {};
         let gameEndReason = 'complete'; // 'complete' or 'crashed'
-        let isPaused = false; // Add pause state
 
         // Galaxy background themes
         const galaxyThemes = [
-            { // Galaxy 1-9 - Deep Space Blue
+            { // Galaxy 1 - Deep Space Blue
                 colors: ['#1a1a4d', '#0a0a2e'],
                 starColor: 'rgba(255, 255, 255, 0.8)',
                 name: 'Deep Space'
             },
-            { // Galaxy 10-19 - Sky Theme
-                colors: ['#87CEEB', '#4682B4'],
-                starColor: 'rgba(255, 255, 255, 0.8)',
-                name: 'Sky World',
-                background: 'url("https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.jpg")',
-                enemyType: 'bird'
+            { // Galaxy 2 - Emerald Nebula
+                colors: ['#0d4d2d', '#051a0f'],
+                starColor: 'rgba(100, 255, 150, 0.8)',
+                name: 'Emerald Nebula'
             },
-            { // Galaxy 20-29 - Earth Theme
-                colors: ['#8B4513', '#228B22'],
-                starColor: 'rgba(255, 255, 255, 0.8)',
-                name: 'Earth World',
-                background: 'url("https://assets.mixkit.co/active_storage/sfx/2014/2014-preview.jpg")',
-                enemyType: 'human'
+            { // Galaxy 3 - Crimson Galaxy
+                colors: ['#4d1a1a', '#2e0a0a'],
+                starColor: 'rgba(255, 150, 150, 0.8)',
+                name: 'Crimson Galaxy'
             },
-            { // Galaxy 30+ - Ocean Theme
-                colors: ['#1E90FF', '#000080'],
-                starColor: 'rgba(255, 255, 255, 0.8)',
-                name: 'Ocean World',
-                background: 'url("https://assets.mixkit.co/active_storage/sfx/2015/2015-preview.jpg")',
-                enemyType: 'fish'
+            { // Galaxy 4 - Purple Void
+                colors: ['#4d1a4d', '#2e0a2e'],
+                starColor: 'rgba(255, 150, 255, 0.8)',
+                name: 'Purple Void'
+            },
+            { // Galaxy 5 - Golden Cosmos
+                colors: ['#4d4d1a', '#2e2e0a'],
+                starColor: 'rgba(255, 255, 150, 0.8)',
+                name: 'Golden Cosmos'
+            },
+            { // Galaxy 6 - Cyan Storm
+                colors: ['#1a4d4d', '#0a2e2e'],
+                starColor: 'rgba(150, 255, 255, 0.8)',
+                name: 'Cyan Storm'
+            },
+            { // Galaxy 7 - Magenta Expanse
+                colors: ['#4d1a3d', '#2e0a1d'],
+                starColor: 'rgba(255, 150, 200, 0.8)',
+                name: 'Magenta Expanse'
+            },
+            { // Galaxy 8 - Orange Frontier
+                colors: ['#4d3d1a', '#2e1d0a'],
+                starColor: 'rgba(255, 200, 150, 0.8)',
+                name: 'Orange Frontier'
             }
         ];
-
-        // Enemy types
-        const enemyTypes = {
-            // Space enemies (Galaxy 1-9)
-            alien: {
-                width: 30,
-                height: 30,
-                color: '#666666',
-                speed: 2,
-                points: 25,
-                draw: function(ctx, x, y) {
-                    // UFO body
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.ellipse(x + 15, y + 15, 15, 8, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // UFO dome
-                    ctx.fillStyle = '#4444ff';
-                    ctx.beginPath();
-                    ctx.ellipse(x + 15, y + 12, 10, 6, 0, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    // Lights
-                    ctx.fillStyle = '#ff0000';
-                    ctx.beginPath();
-                    ctx.arc(x + 7, y + 18, 2, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    ctx.fillStyle = '#00ff00';
-                    ctx.beginPath();
-                    ctx.arc(x + 15, y + 18, 2, 0, Math.PI * 2);
-                    ctx.fill();
-                    
-                    ctx.fillStyle = '#ffff00';
-                    ctx.beginPath();
-                    ctx.arc(x + 23, y + 18, 2, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            },
-            asteroid: {
-                width: 35,
-                height: 35,
-                color: '#8B4513',
-                speed: 1.5,
-                points: 20,
-                draw: function(ctx, x, y) {
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    const sides = 8;
-                    for (let i = 0; i < sides; i++) {
-                        const angle = (i / sides) * Math.PI * 2;
-                        const radius = 17.5 * (0.8 + Math.sin(angle * 3) * 0.2);
-                        const px = x + 17.5 + Math.cos(angle) * radius;
-                        const py = y + 17.5 + Math.sin(angle) * radius;
-                        if (i === 0) ctx.moveTo(px, py);
-                        else ctx.lineTo(px, py);
-                    }
-                    ctx.closePath();
-                    ctx.fill();
-                }
-            },
-
-            // Sky enemies (Galaxy 10-19)
-            bird: {
-                width: 30,
-                height: 20,
-                color: '#FFD700',
-                speed: 3,
-                points: 30,
-                draw: function(ctx, x, y) {
-                    // Draw bird
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.moveTo(x, y);
-                    ctx.lineTo(x + 15, y - 10);
-                    ctx.lineTo(x + 30, y);
-                    ctx.lineTo(x + 15, y + 10);
-                    ctx.closePath();
-                    ctx.fill();
-                    
-                    // Draw wings
-                    ctx.beginPath();
-                    ctx.moveTo(x + 15, y);
-                    ctx.lineTo(x + 25, y - 15);
-                    ctx.lineTo(x + 35, y);
-                    ctx.stroke();
-                }
-            },
-            cloud: {
-                width: 40,
-                height: 25,
-                color: '#FFFFFF',
-                speed: 1,
-                points: 15,
-                draw: function(ctx, x, y) {
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.arc(x + 10, y + 12, 8, 0, Math.PI * 2);
-                    ctx.arc(x + 20, y + 8, 10, 0, Math.PI * 2);
-                    ctx.arc(x + 30, y + 12, 8, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            },
-            thunder: {
-                width: 20,
-                height: 35,
-                color: '#FFFF00',
-                speed: 4,
-                points: 35,
-                draw: function(ctx, x, y) {
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.moveTo(x + 10, y);
-                    ctx.lineTo(x + 5, y + 15);
-                    ctx.lineTo(x + 15, y + 20);
-                    ctx.lineTo(x + 10, y + 35);
-                    ctx.lineTo(x + 15, y + 20);
-                    ctx.lineTo(x + 5, y + 15);
-                    ctx.closePath();
-                    ctx.fill();
-                }
-            },
-
-            // Earth enemies (Galaxy 20-29)
-            human: {
-                width: 25,
-                height: 40,
-                color: '#FF6347',
-                speed: 2,
-                points: 40,
-                draw: function(ctx, x, y) {
-                    // Draw human
-                    ctx.fillStyle = this.color;
-                    // Body
-                    ctx.fillRect(x + 8, y + 10, 10, 20);
-                    // Head
-                    ctx.beginPath();
-                    ctx.arc(x + 13, y + 5, 5, 0, Math.PI * 2);
-                    ctx.fill();
-                    // Arms
-                    ctx.fillRect(x, y + 15, 8, 4);
-                    ctx.fillRect(x + 18, y + 15, 8, 4);
-                    // Legs
-                    ctx.fillRect(x + 8, y + 30, 4, 10);
-                    ctx.fillRect(x + 14, y + 30, 4, 10);
-                }
-            },
-            car: {
-                width: 35,
-                height: 20,
-                color: '#FF0000',
-                speed: 3,
-                points: 45,
-                draw: function(ctx, x, y) {
-                    // Car body
-                    ctx.fillStyle = this.color;
-                    ctx.fillRect(x, y + 5, 35, 15);
-                    // Windows
-                    ctx.fillStyle = '#87CEEB';
-                    ctx.fillRect(x + 5, y + 8, 10, 5);
-                    ctx.fillRect(x + 20, y + 8, 10, 5);
-                    // Wheels
-                    ctx.fillStyle = '#000000';
-                    ctx.beginPath();
-                    ctx.arc(x + 8, y + 20, 4, 0, Math.PI * 2);
-                    ctx.arc(x + 27, y + 20, 4, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            },
-            robot: {
-                width: 30,
-                height: 40,
-                color: '#808080',
-                speed: 1.5,
-                points: 50,
-                draw: function(ctx, x, y) {
-                    // Robot body
-                    ctx.fillStyle = this.color;
-                    ctx.fillRect(x + 5, y + 10, 20, 25);
-                    // Head
-                    ctx.fillRect(x + 8, y, 14, 15);
-                    // Eyes
-                    ctx.fillStyle = '#FF0000';
-                    ctx.fillRect(x + 10, y + 5, 3, 3);
-                    ctx.fillRect(x + 17, y + 5, 3, 3);
-                    // Arms
-                    ctx.fillStyle = this.color;
-                    ctx.fillRect(x, y + 15, 5, 15);
-                    ctx.fillRect(x + 25, y + 15, 5, 15);
-                }
-            },
-
-            // Ocean enemies (Galaxy 30+)
-            fish: {
-                width: 35,
-                height: 20,
-                color: '#FF69B4',
-                speed: 4,
-                points: 35,
-                draw: function(ctx, x, y) {
-                    // Draw fish
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.moveTo(x, y + 10);
-                    ctx.lineTo(x + 25, y);
-                    ctx.lineTo(x + 35, y + 10);
-                    ctx.lineTo(x + 25, y + 20);
-                    ctx.closePath();
-                    ctx.fill();
-                    
-                    // Draw tail
-                    ctx.beginPath();
-                    ctx.moveTo(x + 35, y + 10);
-                    ctx.lineTo(x + 45, y + 5);
-                    ctx.lineTo(x + 45, y + 15);
-                    ctx.closePath();
-                    ctx.fill();
-                    
-                    // Draw eye
-                    ctx.fillStyle = 'white';
-                    ctx.beginPath();
-                    ctx.arc(x + 30, y + 8, 2, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            },
-            jellyfish: {
-                width: 30,
-                height: 40,
-                color: '#FF00FF',
-                speed: 2,
-                points: 40,
-                draw: function(ctx, x, y) {
-                    // Jellyfish body
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.arc(x + 15, y + 10, 10, 0, Math.PI, true);
-                    ctx.fill();
-                    
-                    // Tentacles
-                    ctx.beginPath();
-                    for (let i = 0; i < 5; i++) {
-                        ctx.moveTo(x + 10 + i * 5, y + 10);
-                        ctx.quadraticCurveTo(
-                            x + 10 + i * 5, y + 25,
-                            x + 5 + i * 5, y + 40
-                        );
-                    }
-                    ctx.strokeStyle = this.color;
-                    ctx.stroke();
-                }
-            },
-            shark: {
-                width: 45,
-                height: 25,
-                color: '#4682B4',
-                speed: 5,
-                points: 60,
-                draw: function(ctx, x, y) {
-                    // Shark body
-                    ctx.fillStyle = this.color;
-                    ctx.beginPath();
-                    ctx.moveTo(x, y + 12);
-                    ctx.lineTo(x + 35, y);
-                    ctx.lineTo(x + 45, y + 12);
-                    ctx.lineTo(x + 35, y + 25);
-                    ctx.closePath();
-                    ctx.fill();
-                    
-                    // Fin
-                    ctx.beginPath();
-                    ctx.moveTo(x + 25, y);
-                    ctx.lineTo(x + 20, y - 10);
-                    ctx.lineTo(x + 15, y);
-                    ctx.fill();
-                    
-                    // Teeth
-                    ctx.fillStyle = 'white';
-                    for (let i = 0; i < 3; i++) {
-                        ctx.beginPath();
-                        ctx.moveTo(x + 5 + i * 5, y + 12);
-                        ctx.lineTo(x + 8 + i * 5, y + 8);
-                        ctx.lineTo(x + 11 + i * 5, y + 12);
-                        ctx.fill();
-                    }
-                }
-            }
-        };
 
         // Game objects
         const player = {
@@ -886,8 +660,6 @@
         let asteroids = [];
         let aliens = [];
         let projectiles = [];
-        let alienProjectiles = [];
-        let hearts = [];
         let shootCooldown = 0;
         let boss = null;
         let bossActive = false;
@@ -948,93 +720,6 @@
                 description: "Ultimate galactic destroyer"
             }
         ];
-
-        // Special Weapons System
-        const specialWeapons = [
-            {
-                name: "Plasma Cannon",
-                price: 150,
-                damage: 2,
-                width: 8,
-                height: 15,
-                color: '#00ffff',
-                speed: 7,
-                description: "Wide beam that deals double damage",
-                draw: function(ctx, x, y) {
-                    ctx.fillStyle = this.color;
-                    ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 10;
-                    ctx.beginPath();
-                    ctx.moveTo(x, y);
-                    ctx.lineTo(x + this.width, y);
-                    ctx.lineTo(x + this.width/2, y + this.height);
-                    ctx.closePath();
-                    ctx.fill();
-                }
-            },
-            {
-                name: "Missile Launcher",
-                price: 200,
-                damage: 3,
-                width: 6,
-                height: 12,
-                color: '#ff4444',
-                speed: 6,
-                homing: true,
-                description: "Homing missiles that track enemies",
-                draw: function(ctx, x, y) {
-                    ctx.fillStyle = this.color;
-                    ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 8;
-                    ctx.beginPath();
-                    ctx.moveTo(x + this.width/2, y);
-                    ctx.lineTo(x + this.width, y + this.height/2);
-                    ctx.lineTo(x + this.width/2, y + this.height);
-                    ctx.lineTo(x, y + this.height/2);
-                    ctx.closePath();
-                    ctx.fill();
-                }
-            },
-            {
-                name: "Laser Beam",
-                price: 300,
-                damage: 1,
-                width: 4,
-                height: 30,
-                color: '#ff00ff',
-                speed: 10,
-                continuous: true,
-                description: "Continuous beam with high fire rate",
-                draw: function(ctx, x, y) {
-                    ctx.fillStyle = this.color;
-                    ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 15;
-                    ctx.fillRect(x, y, this.width, this.height);
-                }
-            },
-            {
-                name: "EMP Blast",
-                price: 400,
-                damage: 2,
-                width: 20,
-                height: 20,
-                color: '#ffff00',
-                speed: 5,
-                areaDamage: true,
-                description: "Area damage that affects multiple enemies",
-                draw: function(ctx, x, y) {
-                    ctx.fillStyle = this.color;
-                    ctx.shadowColor = this.color;
-                    ctx.shadowBlur = 20;
-                    ctx.beginPath();
-                    ctx.arc(x + this.width/2, y + this.height/2, this.width/2, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-        ];
-
-        let currentWeapon = 0;
-        let ownedWeapons = [0]; // Start with basic weapon
 
         // Boss data
         const bossTypes = [
@@ -1160,269 +845,6 @@
 
         let survivalTime = 0;
         let maxLevelReached = 1;
-        let heartSpawnTimer = 0;
-
-        // Sound system
-        const sounds = {
-            shoot: new Audio('https://assets.mixkit.co/active_storage/sfx/2012/2012-preview.mp3'), // Powerful BANG sound
-            shootEcho: new Audio('https://assets.mixkit.co/active_storage/sfx/2012/2012-preview.mp3'), // Echo effect
-            explosion: new Audio('https://assets.mixkit.co/active_storage/sfx/2004/2004-preview.mp3'),
-            collect: new Audio('https://assets.mixkit.co/active_storage/sfx/2005/2005-preview.mp3'),
-            powerup: new Audio('https://assets.mixkit.co/active_storage/sfx/2006/2006-preview.mp3'),
-            hit: new Audio('https://assets.mixkit.co/active_storage/sfx/2007/2007-preview.mp3'),
-            achievement: new Audio('https://assets.mixkit.co/active_storage/sfx/2008/2008-preview.mp3'),
-            background: new Audio('https://assets.mixkit.co/active_storage/sfx/2009/2009-preview.mp3')
-        };
-
-        // Configure sound volumes and effects
-        sounds.background.loop = true;
-        sounds.background.volume = 0.3;
-        sounds.shoot.volume = 0.8; // Much louder BANG sound
-        sounds.shootEcho.volume = 0.4; // Stronger echo
-        sounds.shootEcho.playbackRate = 0.7; // Slower echo for more dramatic effect
-
-        // Special Events System
-        const specialEvents = {
-            currentEvent: null,
-            events: [
-                {
-                    name: "Halloween Invasion",
-                    startDate: "10-25",
-                    endDate: "11-01",
-                    enemyType: "ghost",
-                    background: "url('https://assets.mixkit.co/active_storage/sfx/2016/2016-preview.jpg')",
-                    colors: ['#4a1a4a', '#2d0f2d'],
-                    description: "Spooky ghosts invade the galaxy!",
-                    rewards: {
-                        score: 2, // Double score
-                        currency: 2 // Double currency
-                    }
-                },
-                {
-                    name: "Christmas Journey",
-                    startDate: "12-20",
-                    endDate: "01-05",
-                    enemyType: "snowman",
-                    background: "url('https://assets.mixkit.co/active_storage/sfx/2017/2017-preview.jpg')",
-                    colors: ['#1a4a4a', '#0f2d2d'],
-                    description: "Fight through a winter wonderland!",
-                    rewards: {
-                        score: 1.5,
-                        currency: 1.5
-                    }
-                },
-                {
-                    name: "Summer Blast",
-                    startDate: "07-01",
-                    endDate: "07-31",
-                    enemyType: "beach",
-                    background: "url('https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.jpg')",
-                    colors: ['#4a4a1a', '#2d2d0f'],
-                    description: "Hot summer action in space!",
-                    rewards: {
-                        score: 1.5,
-                        currency: 1.5
-                    }
-                }
-            ],
-            
-            checkEvent: function() {
-                const today = new Date();
-                const currentDate = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-                
-                for (const event of this.events) {
-                    if (currentDate >= event.startDate && currentDate <= event.endDate) {
-                        this.currentEvent = event;
-                        this.activateEvent();
-                        return;
-                    }
-                }
-                this.currentEvent = null;
-            },
-            
-            activateEvent: function() {
-                if (!this.currentEvent) return;
-                
-                // Show event notification
-                const notification = document.createElement('div');
-                notification.style.cssText = `
-                    position: fixed;
-                    top: 20px;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    background: rgba(0, 0, 0, 0.9);
-                    color: #ffdd44;
-                    padding: 15px 30px;
-                    border-radius: 10px;
-                    border: 2px solid #ffdd44;
-                    font-family: 'Courier New', monospace;
-                    font-weight: bold;
-                    z-index: 1000;
-                    animation: slideDown 0.5s ease;
-                `;
-                notification.innerHTML = `
-                    🎉 SPECIAL EVENT: ${this.currentEvent.name} 🎉<br>
-                    ${this.currentEvent.description}
-                `;
-                document.body.appendChild(notification);
-                
-                // Remove notification after 5 seconds
-                setTimeout(() => {
-                    notification.style.animation = 'slideUp 0.5s ease';
-                    setTimeout(() => notification.remove(), 500);
-                }, 5000);
-                
-                // Play special event music
-                if (sounds.eventMusic) {
-                    sounds.eventMusic.play();
-                }
-            }
-        };
-
-        // Enhanced Sound System
-        const soundSystem = {
-            masterVolume: 0.7,
-            isMuted: false,
-            
-            init: function() {
-                // Add more sound effects
-                sounds.eventMusic = new Audio('https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3');
-                sounds.levelUp = new Audio('https://assets.mixkit.co/active_storage/sfx/2020/2020-preview.mp3');
-                sounds.weaponSwitch = new Audio('https://assets.mixkit.co/active_storage/sfx/2021/2021-preview.mp3');
-                sounds.bossWarning = new Audio('https://assets.mixkit.co/active_storage/sfx/2022/2022-preview.mp3');
-                
-                // Configure new sounds
-                sounds.eventMusic.loop = true;
-                sounds.eventMusic.volume = 0.4;
-                sounds.levelUp.volume = 0.6;
-                sounds.weaponSwitch.volume = 0.5;
-                sounds.bossWarning.volume = 0.7;
-                
-                // Add sound effects for different events
-                this.addEventListeners();
-            },
-            
-            addEventListeners: function() {
-                // Level up sound
-                const originalLevelUp = window.levelUp;
-                window.levelUp = function() {
-                    playSound('levelUp');
-                    originalLevelUp();
-                };
-                
-                // Weapon switch sound
-                const originalWeaponSwitch = window.selectWeapon;
-                window.selectWeapon = function(weaponIndex) {
-                    playSound('weaponSwitch');
-                    originalWeaponSwitch(weaponIndex);
-                };
-                
-                // Boss warning sound
-                const originalCreateBoss = window.createBoss;
-                window.createBoss = function() {
-                    playSound('bossWarning');
-                    originalCreateBoss();
-                };
-            },
-            
-            toggleMute: function() {
-                this.isMuted = !this.isMuted;
-                const volume = this.isMuted ? 0 : this.masterVolume;
-                
-                // Update all sound volumes
-                Object.values(sounds).forEach(sound => {
-                    if (sound instanceof Audio) {
-                        sound.volume = volume;
-                    }
-                });
-                
-                // Update button appearance
-                const soundBtn = document.getElementById('soundBtn');
-                soundBtn.textContent = this.isMuted ? '🔇 Sound' : '🔊 Sound';
-                
-                return this.isMuted;
-            },
-            
-            setVolume: function(volume) {
-                this.masterVolume = Math.max(0, Math.min(1, volume));
-                if (!this.isMuted) {
-                    Object.values(sounds).forEach(sound => {
-                        if (sound instanceof Audio) {
-                            sound.volume = this.masterVolume;
-                        }
-                    });
-                }
-            }
-        };
-
-        // Initialize sound system
-        soundSystem.init();
-
-        // Check for special events on game start
-        specialEvents.checkEvent();
-
-        // Enhanced sound control functions
-        function playSound(soundName) {
-            if (sounds[soundName]) {
-                sounds[soundName].currentTime = 0;
-                sounds[soundName].play().catch(e => console.log('Audio play failed:', e));
-                
-                // Add echo effect for shooting
-                if (soundName === 'shoot') {
-                    // Multiple echoes for more dramatic BANG effect
-                    setTimeout(() => {
-                        sounds.shootEcho.currentTime = 0;
-                        sounds.shootEcho.play().catch(e => console.log('Echo play failed:', e));
-                    }, 150); // First echo
-                    setTimeout(() => {
-                        sounds.shootEcho.currentTime = 0;
-                        sounds.shootEcho.volume = 0.2; // Quieter second echo
-                        sounds.shootEcho.play().catch(e => console.log('Echo play failed:', e));
-                    }, 300); // Second echo
-                }
-            }
-        }
-
-        // Create powerful shooting effect
-        function createProjectile() {
-            projectiles.push({
-                x: player.x + player.width/2 - 2,
-                y: player.y,
-                width: 4,
-                height: 10,
-                speed: 8,
-                color: '#00ff00'
-            });
-            
-            // Play main shooting sound
-            playSound('shoot');
-            
-            // Add more intense screen shake effect
-            document.querySelector('.game-container').classList.add('shake');
-            setTimeout(() => {
-                document.querySelector('.game-container').classList.remove('shake');
-            }, 150); // Longer shake for BANG effect
-        }
-
-        // Add more dramatic screen shake animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0% { transform: translate(0, 0) rotate(0deg); }
-                25% { transform: translate(-8px, -8px) rotate(-2deg); }
-                50% { transform: translate(8px, 8px) rotate(2deg); }
-                75% { transform: translate(-8px, 8px) rotate(-2deg); }
-                100% { transform: translate(0, 0) rotate(0deg); }
-            }
-
-            .shake {
-                animation: shake 0.15s ease-in-out;
-            }
-        `;
-        document.head.appendChild(style);
-
-        // Start background music
-        sounds.background.play().catch(e => console.log('Background music failed to start:', e));
 
         // Update player stats based on current ship
         function updatePlayerStats() {
@@ -1437,9 +859,8 @@
             
             playerHealth--;
             invulnerable = true;
-            invulnerabilityTime = 120;
+            invulnerabilityTime = 120; // 2 seconds of invulnerability at 60fps
             updateHeartsDisplay();
-            playSound('hit');
             
             if (playerHealth <= 0) {
                 gameRunning = false;
@@ -1448,7 +869,6 @@
                 document.getElementById('finalLevel').textContent = level;
                 updateGameOverScreen();
                 document.getElementById('gameOver').style.display = 'block';
-                playSound('explosion');
                 return true;
             }
             return false;
@@ -1508,7 +928,6 @@
         }
 
         function showAchievementNotification(achievement) {
-            playSound('achievement');
             // Create notification element
             const notification = document.createElement('div');
             notification.style.cssText = `
@@ -1583,20 +1002,6 @@
             });
         }
 
-        // Create heart pickup
-        function createHeart() {
-            hearts.push({
-                x: Math.random() * (canvas.width - 30),
-                y: Math.random() * (canvas.height - 30),
-                width: 25,
-                height: 25,
-                collected: false,
-                pulse: 0,
-                vx: (Math.random() - 0.5) * 1.5, // Hearts move slower than dollars
-                vy: (Math.random() - 0.5) * 1.5
-            });
-        }
-
         // Create asteroid
         function createAsteroid() {
             const size = Math.random() * 20 + 15; // Random size between 15-35
@@ -1614,85 +1019,16 @@
 
         // Create alien
         function createAlien() {
-            const currentTheme = galaxyThemes[Math.floor((level - 1) / 10)];
-            const enemyType = currentTheme.enemyType;
-            
-            // Get all possible enemies for current theme based on level
-            let possibleEnemies = [];
-            
-            // Space enemies (Galaxy 1-9)
-            if (level < 10) {
-                if (level < 2) {
-                    possibleEnemies = ['alien'];
-                } else if (level < 4) {
-                    possibleEnemies = ['alien', 'asteroid'];
-                } else if (level < 6) {
-                    possibleEnemies = ['alien', 'asteroid', 'alien']; // More aliens
-                } else if (level < 8) {
-                    possibleEnemies = ['alien', 'asteroid', 'alien', 'asteroid'];
-                } else {
-                    possibleEnemies = ['alien', 'asteroid', 'alien', 'asteroid', 'alien'];
-                }
-            }
-            // Sky enemies (Galaxy 10-19)
-            else if (level < 20) {
-                if (level < 12) {
-                    possibleEnemies = ['bird'];
-                } else if (level < 14) {
-                    possibleEnemies = ['bird', 'cloud'];
-                } else if (level < 16) {
-                    possibleEnemies = ['bird', 'cloud', 'thunder'];
-                } else if (level < 18) {
-                    possibleEnemies = ['bird', 'cloud', 'thunder', 'bird'];
-                } else {
-                    possibleEnemies = ['bird', 'cloud', 'thunder', 'bird', 'thunder'];
-                }
-            }
-            // Earth enemies (Galaxy 20-29)
-            else if (level < 30) {
-                if (level < 22) {
-                    possibleEnemies = ['human'];
-                } else if (level < 24) {
-                    possibleEnemies = ['human', 'car'];
-                } else if (level < 26) {
-                    possibleEnemies = ['human', 'car', 'robot'];
-                } else if (level < 28) {
-                    possibleEnemies = ['human', 'car', 'robot', 'human'];
-                } else {
-                    possibleEnemies = ['human', 'car', 'robot', 'human', 'robot'];
-                }
-            }
-            // Ocean enemies (Galaxy 30+)
-            else {
-                if (level < 32) {
-                    possibleEnemies = ['fish'];
-                } else if (level < 34) {
-                    possibleEnemies = ['fish', 'jellyfish'];
-                } else if (level < 36) {
-                    possibleEnemies = ['fish', 'jellyfish', 'shark'];
-                } else if (level < 38) {
-                    possibleEnemies = ['fish', 'jellyfish', 'shark', 'fish'];
-                } else {
-                    possibleEnemies = ['fish', 'jellyfish', 'shark', 'fish', 'shark'];
-                }
-            }
-            
-            // Randomly select an enemy type
-            const selectedType = possibleEnemies[Math.floor(Math.random() * possibleEnemies.length)];
-            const enemyTemplate = enemyTypes[selectedType];
-
-            const size = enemyTemplate.width;
+            const size = 30;
             aliens.push({
                 x: Math.random() * (canvas.width - size),
                 y: Math.random() * (canvas.height - size),
                 width: size,
                 height: size,
-                vx: (Math.random() - 0.5) * (enemyTemplate.speed + level * 0.2),
-                vy: (Math.random() - 0.5) * (enemyTemplate.speed + level * 0.2),
+                vx: (Math.random() - 0.5) * (1.5 + level * 0.2),
+                vy: (Math.random() - 0.5) * (1.5 + level * 0.2),
                 health: 1,
-                pulse: 0,
-                type: selectedType,
-                points: enemyTemplate.points
+                pulse: 0
             });
         }
 
@@ -1723,15 +1059,15 @@
             asteroids = [];
         }
 
-        // Create alien projectile
-        function createAlienProjectile(x, y) {
-            alienProjectiles.push({
-                x: x,
-                y: y,
+        // Create projectile
+        function createProjectile() {
+            projectiles.push({
+                x: player.x + player.width/2 - 2,
+                y: player.y,
                 width: 4,
                 height: 10,
-                speed: 3,
-                color: '#ff0000'
+                speed: 8,
+                color: '#00ff00'
             });
         }
 
@@ -1808,29 +1144,6 @@
             ctx.restore();
         }
 
-        // Draw heart pickup
-        function drawHeart(heart) {
-            heart.pulse += 0.15;
-            const scale = 1 + Math.sin(heart.pulse) * 0.3;
-            
-            ctx.save();
-            ctx.translate(heart.x + heart.width/2, heart.y + heart.height/2);
-            ctx.scale(scale, scale);
-            
-            // Heart
-            ctx.fillStyle = '#ff4444';
-            ctx.font = '20px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText('❤️', 0, 5);
-            
-            // Glow effect
-            ctx.shadowColor = '#ff4444';
-            ctx.shadowBlur = 15;
-            ctx.fillText('❤️', 0, 5);
-            
-            ctx.restore();
-        }
-
         // Draw asteroid
         function drawAsteroid(asteroid) {
             asteroid.rotation += asteroid.rotationSpeed;
@@ -1840,9 +1153,9 @@
             ctx.rotate(asteroid.rotation);
             
             // Asteroid body - rough rocky shape
-            ctx.fillStyle = asteroid.isFragment ? '#A0522D' : '#8B4513'; // Lighter color for fragments
+            ctx.fillStyle = '#8B4513';
             ctx.beginPath();
-            const sides = asteroid.isFragment ? 6 : 8; // Fewer sides for fragments
+            const sides = 8;
             for (let i = 0; i < sides; i++) {
                 const angle = (i / sides) * Math.PI * 2;
                 const radius = asteroid.width/2 * (0.8 + Math.sin(angle * 3) * 0.2);
@@ -1855,9 +1168,15 @@
             ctx.fill();
             
             // Asteroid highlights
-            ctx.fillStyle = asteroid.isFragment ? '#CD853F' : '#CD853F';
+            ctx.fillStyle = '#CD853F';
             ctx.beginPath();
             ctx.arc(-asteroid.width/4, -asteroid.width/4, asteroid.width/8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Asteroid shadow
+            ctx.fillStyle = '#654321';
+            ctx.beginPath();
+            ctx.arc(asteroid.width/4, asteroid.width/4, asteroid.width/10, 0, Math.PI * 2);
             ctx.fill();
             
             ctx.restore();
@@ -1872,41 +1191,47 @@
             ctx.translate(alien.x + alien.width/2, alien.y + alien.height/2);
             ctx.scale(scale, scale);
             
-            if (alien.isFragment) {
-                // Draw fragment version of alien
-                ctx.fillStyle = '#888888';
-                ctx.beginPath();
-                ctx.ellipse(0, 0, alien.width/2, alien.height/2, 0, 0, Math.PI * 2);
-                ctx.fill();
-                
-                // Add damage effects
-                ctx.strokeStyle = '#ff0000';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-                ctx.moveTo(-alien.width/3, -alien.height/3);
-                ctx.lineTo(alien.width/3, alien.height/3);
-                ctx.stroke();
-            } else {
-                const enemyType = enemyTypes[alien.type];
-                if (enemyType && enemyType.draw) {
-                    enemyType.draw(ctx, -alien.width/2, -alien.height/2);
-                }
-            }
+            // Alien body (UFO shape)
+            ctx.fillStyle = '#666666';
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 15, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Alien dome
+            ctx.fillStyle = '#4444ff';
+            ctx.beginPath();
+            ctx.ellipse(0, -3, 10, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Alien lights
+            ctx.fillStyle = '#ff0000';
+            ctx.beginPath();
+            ctx.arc(-8, 2, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#00ff00';
+            ctx.beginPath();
+            ctx.arc(0, 2, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = '#ffff00';
+            ctx.beginPath();
+            ctx.arc(8, 2, 2, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Alien glow
+            ctx.shadowColor = '#4444ff';
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#4444ff';
+            ctx.beginPath();
+            ctx.ellipse(0, -3, 10, 6, 0, 0, Math.PI * 2);
+            ctx.fill();
             
             ctx.restore();
         }
 
         // Draw projectile
         function drawProjectile(projectile) {
-            ctx.fillStyle = projectile.color;
-            ctx.shadowColor = projectile.color;
-            ctx.shadowBlur = 5;
-            ctx.fillRect(projectile.x, projectile.y, projectile.width, projectile.height);
-            ctx.shadowBlur = 0;
-        }
-
-        // Draw alien projectile
-        function drawAlienProjectile(projectile) {
             ctx.fillStyle = projectile.color;
             ctx.shadowColor = projectile.color;
             ctx.shadowBlur = 5;
@@ -2025,7 +1350,7 @@
 
         // Draw stars
         function drawStars() {
-            const currentTheme = galaxyThemes[Math.floor((level - 1) / 10)];
+            const currentTheme = galaxyThemes[(level - 1) % galaxyThemes.length];
             
             stars.forEach(star => {
                 ctx.fillStyle = currentTheme.starColor.replace('0.8', `${Math.random() * 0.8 + 0.2}`);
@@ -2101,24 +1426,8 @@
                     projectiles.splice(index, 1);
                 }
             });
-
-            // Update alien projectiles
-            alienProjectiles.forEach((projectile, index) => {
-                projectile.y += projectile.speed;
-                if (projectile.y > canvas.height) {
-                    alienProjectiles.splice(index, 1);
-                }
-            });
-
-            // Check alien projectile collision with player
-            alienProjectiles.forEach((projectile, index) => {
-                if (checkCollision(player, projectile)) {
-                    takeDamage();
-                    alienProjectiles.splice(index, 1);
-                }
-            });
             
-            // Update alien positions and shooting
+            // Update alien positions
             aliens.forEach(alien => {
                 alien.x += alien.vx;
                 alien.y += alien.vy;
@@ -2134,86 +1443,34 @@
                 // Keep aliens within bounds
                 alien.x = Math.max(0, Math.min(canvas.width - alien.width, alien.x));
                 alien.y = Math.max(0, Math.min(canvas.height - alien.height, alien.y));
-
-                // Alien shooting logic
-                if (Math.random() < 0.01 + (level * 0.002)) { // Shooting chance increases with level
-                    createAlienProjectile(alien.x + alien.width/2 - 2, alien.y + alien.height);
-                }
             });
             
             // Check projectile-alien collisions
             projectiles.forEach((projectile, pIndex) => {
                 aliens.forEach((alien, aIndex) => {
                     if (checkCollision(projectile, alien)) {
+                        // Alien destroyed!
                         createParticles(alien.x + alien.width/2, alien.y + alien.height/2);
-                        
-                        if (!alien.isFragment && alien.width > 20) {
-                            // Create smaller fragments
-                            createFragments(
-                                alien.x + alien.width/2,
-                                alien.y + alien.height/2,
-                                alien.type,
-                                alien.width * 0.6,
-                                2
-                            );
-                        }
-                        
                         aliens.splice(aIndex, 1);
                         projectiles.splice(pIndex, 1);
-                        score += alien.points || 25;
-                        totalEarned += alien.points || 25;
+                        score += 25; // More points for aliens!
+                        totalEarned += 25; // Track total for shop
                         aliensDestroyed++;
-                        playSound('explosion');
                     }
                 });
-
-                // Check projectile-asteroid collisions
+            });
+            
+            // Check projectile-asteroid collisions
+            projectiles.forEach((projectile, pIndex) => {
                 asteroids.forEach((asteroid, aIndex) => {
                     if (checkCollision(projectile, asteroid)) {
+                        // Asteroid destroyed!
                         createParticles(asteroid.x + asteroid.width/2, asteroid.y + asteroid.height/2);
-                        
-                        if (!asteroid.isFragment && asteroid.width > 25) {
-                            // Create smaller fragments
-                            createFragments(
-                                asteroid.x + asteroid.width/2,
-                                asteroid.y + asteroid.height/2,
-                                'asteroid',
-                                asteroid.width * 0.6,
-                                2
-                            );
-                        }
-                        
                         asteroids.splice(aIndex, 1);
                         projectiles.splice(pIndex, 1);
-                        score += 15;
-                        totalEarned += 15;
+                        score += 15; // Points for asteroids!
+                        totalEarned += 15; // Track total for shop
                         asteroidsDestroyed++;
-                        playSound('explosion');
-                    }
-                });
-
-                // Check projectile-dollar collisions
-                dollars.forEach((dollar, dIndex) => {
-                    if (!dollar.collected && checkCollision(projectile, dollar)) {
-                        dollar.collected = true;
-                        score += 10;
-                        totalEarned += 10;
-                        createParticles(dollar.x + dollar.width/2, dollar.y + dollar.height/2);
-                        dollars.splice(dIndex, 1);
-                        projectiles.splice(pIndex, 1);
-                        playSound('collect');
-                        
-                        // Add special effect for shooting dollars
-                        for (let i = 0; i < 15; i++) {
-                            particles.push({
-                                x: dollar.x + dollar.width/2,
-                                y: dollar.y + dollar.height/2,
-                                vx: (Math.random() - 0.5) * 8,
-                                vy: (Math.random() - 0.5) * 8,
-                                life: 40,
-                                color: '#ffdd44'
-                            });
-                        }
                     }
                 });
             });
@@ -2241,24 +1498,6 @@
                 // Keep dollars within bounds
                 dollar.x = Math.max(0, Math.min(canvas.width - dollar.width, dollar.x));
                 dollar.y = Math.max(0, Math.min(canvas.height - dollar.height, dollar.y));
-            });
-
-            // Update heart positions
-            hearts.forEach(heart => {
-                heart.x += heart.vx;
-                heart.y += heart.vy;
-                
-                // Bounce off walls
-                if (heart.x <= 0 || heart.x >= canvas.width - heart.width) {
-                    heart.vx = -heart.vx;
-                }
-                if (heart.y <= 0 || heart.y >= canvas.height - heart.height) {
-                    heart.vy = -heart.vy;
-                }
-                
-                // Keep hearts within bounds
-                heart.x = Math.max(0, Math.min(canvas.width - heart.width, heart.x));
-                heart.y = Math.max(0, Math.min(canvas.height - heart.height, heart.y));
             });
             
             // Update asteroid positions
@@ -2291,47 +1530,21 @@
                 if (!dollar.collected && checkCollision(player, dollar)) {
                     dollar.collected = true;
                     score += 10;
-                    totalEarned += 10;
+                    totalEarned += 10; // Track total for shop
                     createParticles(dollar.x + dollar.width/2, dollar.y + dollar.height/2);
                     dollars.splice(index, 1);
-                    playSound('collect');
                     
+                    // Level up every 100 points
                     if (score % 100 === 0) {
                         level++;
-                        updatePlayerStats();
-                        playSound('powerup');
+                        updatePlayerStats(); // Update ship stats for new level
                         
+                        // Update existing dollars to move faster
                         dollars.forEach(d => {
                             d.vx = d.vx > 0 ? Math.abs(d.vx) + 0.5 : -(Math.abs(d.vx) + 0.5);
                             d.vy = d.vy > 0 ? Math.abs(d.vy) + 0.5 : -(Math.abs(d.vy) + 0.5);
                         });
                     }
-                }
-            });
-
-            // Check heart collection
-            hearts.forEach((heart, index) => {
-                if (!heart.collected && checkCollision(player, heart)) {
-                    heart.collected = true;
-                    playSound('powerup');
-                    
-                    if (playerHealth < maxHealth) {
-                        playerHealth++;
-                        updateHeartsDisplay();
-                        
-                        for (let i = 0; i < 15; i++) {
-                            particles.push({
-                                x: heart.x + heart.width/2,
-                                y: heart.y + heart.height/2,
-                                vx: (Math.random() - 0.5) * 8,
-                                vy: (Math.random() - 0.5) * 8,
-                                life: 40,
-                                color: '#ff4444'
-                            });
-                        }
-                    }
-                    
-                    hearts.splice(index, 1);
                 }
             });
             
@@ -2348,13 +1561,6 @@
             // Create new aliens
             if (!bossActive && aliens.length < 1 + Math.floor(level / 3)) {
                 createAlien();
-            }
-            
-            // Heart spawn timer - spawn one heart every 60 seconds (3600 frames at 60fps)
-            heartSpawnTimer++;
-            if (heartSpawnTimer >= 3600 && hearts.length < 2) { // Maximum 2 hearts on screen
-                createHeart();
-                heartSpawnTimer = 0; // Reset timer
             }
             
             // Boss logic
@@ -2412,7 +1618,7 @@
             document.getElementById('wallet').textContent = totalEarned;
             
             // Update galaxy name display
-            const currentTheme = galaxyThemes[Math.floor((level - 1) / 10)];
+            const currentTheme = galaxyThemes[(level - 1) % galaxyThemes.length];
             const levelElement = document.getElementById('level');
             levelElement.innerHTML = `${level} - ${currentTheme.name}`;
             
@@ -2429,7 +1635,7 @@
         // Draw everything
         function draw() {
             // Get current galaxy theme
-            const currentTheme = galaxyThemes[Math.floor((level - 1) / 10)];
+            const currentTheme = galaxyThemes[(level - 1) % galaxyThemes.length];
             
             // Clear canvas with galaxy-specific gradient
             const gradient = ctx.createRadialGradient(canvas.width/2, canvas.height/2, 0, canvas.width/2, canvas.height/2, canvas.width);
@@ -2438,40 +1644,26 @@
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Draw themed background if available
-            if (currentTheme.background) {
-                const bg = new Image();
-                bg.src = currentTheme.background;
-                ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
-            }
-            
             drawStars();
             drawPlayer();
             
             dollars.forEach(drawDollar);
-            hearts.forEach(drawHeart);
             asteroids.forEach(drawAsteroid);
             aliens.forEach(drawAlien);
             projectiles.forEach(drawProjectile);
-            alienProjectiles.forEach(drawAlienProjectile);
             drawBoss();
             drawParticles();
         }
 
         // Game loop
         function gameLoop() {
-            if (!isPaused) {
-                update();
-                draw();
-            }
+            update();
+            draw();
             requestAnimationFrame(gameLoop);
         }
 
         // Event listeners
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'p' || e.key === 'P') {
-                togglePause();
-            }
             keys[e.key] = true;
             
             // ESC key to close shop and achievements
@@ -2484,6 +1676,125 @@
         document.addEventListener('keyup', (e) => {
             keys[e.key] = false;
         });
+
+        // Touch control variables
+        let touchStartX = null;
+        let touchStartY = null;
+        let touchPlayerStartX = null;
+        let touchPlayerStartY = null;
+        let isTouching = false;
+        let lastTapTime = 0;
+        let touchMoved = false;
+
+        // Canvas touch events for direct movement and double-tap shooting
+        canvas.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            touchStartX = touch.clientX - rect.left;
+            touchStartY = touch.clientY - rect.top;
+            touchPlayerStartX = player.x;
+            touchPlayerStartY = player.y;
+            isTouching = true;
+            touchMoved = false; // Reset movement tracking
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            if (!isTouching || !gameRunning) return;
+            
+            touchMoved = true; // Track that touch moved
+            
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            const currentTouchX = touch.clientX - rect.left;
+            const currentTouchY = touch.clientY - rect.top;
+            
+            // Calculate movement delta
+            const deltaX = currentTouchX - touchStartX;
+            const deltaY = currentTouchY - touchStartY;
+            
+            // Move player relative to touch movement
+            const newX = touchPlayerStartX + deltaX;
+            const newY = touchPlayerStartY + deltaY;
+            
+            // Keep player within bounds
+            player.x = Math.max(0, Math.min(canvas.width - player.width, newX));
+            player.y = Math.max(0, Math.min(canvas.height - player.height, newY));
+        });
+
+        canvas.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            
+            // Handle double-tap shooting only if touch didn't move (was a tap, not drag)
+            if (e.touches.length === 0 && !touchMoved) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTapTime;
+                if (tapLength < 400 && tapLength > 0) {
+                    // Double tap detected - shoot!
+                    if (gameRunning && shootCooldown === 0) {
+                        createProjectile();
+                        shootCooldown = spaceships[currentShip].fireRate;
+                    }
+                }
+                lastTapTime = currentTime;
+            }
+            
+            // Reset touch tracking
+            isTouching = false;
+            touchStartX = null;
+            touchStartY = null;
+            touchPlayerStartX = null;
+            touchPlayerStartY = null;
+        });
+
+        // Virtual D-pad controls
+        function setupTouchControls() {
+            const dpadUp = document.querySelector('.dpad-up');
+            const dpadDown = document.querySelector('.dpad-down');
+            const dpadLeft = document.querySelector('.dpad-left');
+            const dpadRight = document.querySelector('.dpad-right');
+            const fireButton = document.querySelector('.fire-button');
+
+            // D-pad button events
+            function addTouchEvents(button, keyToSimulate) {
+                button.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    keys[keyToSimulate] = true;
+                });
+                
+                button.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    keys[keyToSimulate] = false;
+                });
+                
+                button.addEventListener('touchcancel', (e) => {
+                    e.preventDefault();
+                    keys[keyToSimulate] = false;
+                });
+            }
+
+            addTouchEvents(dpadUp, 'ArrowUp');
+            addTouchEvents(dpadDown, 'ArrowDown');
+            addTouchEvents(dpadLeft, 'ArrowLeft');
+            addTouchEvents(dpadRight, 'ArrowRight');
+
+            // Fire button events
+            fireButton.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                keys[' '] = true;
+            });
+            
+            fireButton.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                keys[' '] = false;
+            });
+            
+            fireButton.addEventListener('touchcancel', (e) => {
+                e.preventDefault();
+                keys[' '] = false;
+            });
+        }
 
         // Update game over screen based on how game ended
         function updateGameOverScreen() {
@@ -2509,12 +1820,10 @@
             player.y = canvas.height / 2;
             updatePlayerStats(); // Use current ship stats
             dollars = [];
-            hearts = [];
             particles = [];
             asteroids = [];
             aliens = [];
             projectiles = [];
-            alienProjectiles = [];
             shootCooldown = 0;
             boss = null;
             bossActive = false;
@@ -2531,7 +1840,6 @@
             achievements = [];
             survivalTime = 0;
             maxLevelReached = 1;
-            heartSpawnTimer = 0;
         }
 
         // Shop functions
@@ -2635,7 +1943,7 @@
                 
                 const isCompleted = achievements.includes(achievement.id);
                 if (isCompleted) {
-                    achievementCard.classList.add('completed'); 
+                    achievementCard.classList.add('completed');
                 }
 
                 let current = 0;
@@ -2682,17 +1990,23 @@
             });
         }
 
-        // Update toggleSound function to update button appearance
-        function toggleSound() {
-            const isMuted = toggleSound();
-            const soundBtn = document.getElementById('soundBtn');
-            soundBtn.textContent = isMuted ? '🔇 Sound' : '🔊 Sound';
-            soundBtn.classList.toggle('muted', isMuted);
-        }
+        // Prevent default touch behaviors on the game area
+        document.addEventListener('touchstart', (e) => {
+            if (e.target.closest('#gameCanvas') || e.target.closest('.touch-controls')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        document.addEventListener('touchmove', (e) => {
+            if (e.target.closest('#gameCanvas') || e.target.closest('.touch-controls')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
 
         // Initialize game
         updatePlayerStats(); // Set initial ship stats
         updateHeartsDisplay(); // Initialize hearts display
+        setupTouchControls(); // Initialize touch controls
         createBackgroundStars();
         createStars();
         for (let i = 0; i < 3; i++) {
@@ -2704,239 +2018,16 @@
         for (let i = 0; i < 1; i++) {
             createAlien();
         }
+        
+        // Show touch instructions on touch devices
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            const touchInstructions = document.querySelector('.touch-instructions');
+            if (touchInstructions) {
+                touchInstructions.style.display = 'inline';
+            }
+        }
+        
         gameLoop();
-
-        // Leaderboard System
-        const leaderboard = {
-            scores: [],
-            maxEntries: 10,
-            
-            addScore: function(score, level, playerName) {
-                this.scores.push({
-                    score: score,
-                    level: level,
-                    name: playerName,
-                    date: new Date().toLocaleDateString()
-                });
-                
-                // Sort scores in descending order
-                this.scores.sort((a, b) => b.score - a.score);
-                
-                // Keep only top scores
-                if (this.scores.length > this.maxEntries) {
-                    this.scores = this.scores.slice(0, this.maxEntries);
-                }
-                
-                // Save to localStorage
-                localStorage.setItem('galacticDollarHunterLeaderboard', JSON.stringify(this.scores));
-            },
-            
-            loadScores: function() {
-                const savedScores = localStorage.getItem('galacticDollarHunterLeaderboard');
-                if (savedScores) {
-                    this.scores = JSON.parse(savedScores);
-                }
-            },
-            
-            display: function() {
-                const leaderboardDiv = document.createElement('div');
-                leaderboardDiv.className = 'leaderboard';
-                leaderboardDiv.style.cssText = `
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    background: rgba(0, 0, 0, 0.95);
-                    padding: 30px;
-                    border-radius: 15px;
-                    border: 3px solid #ffdd44;
-                    width: 500px;
-                    max-height: 600px;
-                    overflow-y: auto;
-                    z-index: 1000;
-                `;
-                
-                let html = `
-                    <h2 style="color: #ffdd44; text-align: center; margin-bottom: 20px;">🏆 GALACTIC HALL OF FAME 🏆</h2>
-                    <table style="width: 100%; border-collapse: collapse; color: white;">
-                        <tr style="border-bottom: 2px solid #ffdd44;">
-                            <th style="padding: 10px; text-align: left;">Rank</th>
-                            <th style="padding: 10px; text-align: left;">Pilot</th>
-                            <th style="padding: 10px; text-align: right;">Score</th>
-                            <th style="padding: 10px; text-align: right;">Galaxy</th>
-                        </tr>
-                `;
-                
-                this.scores.forEach((entry, index) => {
-                    html += `
-                        <tr style="border-bottom: 1px solid #444;">
-                            <td style="padding: 10px;">#${index + 1}</td>
-                            <td style="padding: 10px;">${entry.name}</td>
-                            <td style="padding: 10px; text-align: right;">${entry.score}</td>
-                            <td style="padding: 10px; text-align: right;">${entry.level}</td>
-                        </tr>
-                    `;
-                });
-                
-                html += '</table>';
-                leaderboardDiv.innerHTML = html;
-                
-                // Add close button
-                const closeBtn = document.createElement('button');
-                closeBtn.textContent = '×';
-                closeBtn.style.cssText = `
-                    position: absolute;
-                    top: 10px;
-                    right: 15px;
-                    background: none;
-                    border: none;
-                    color: #ffdd44;
-                    font-size: 24px;
-                    cursor: pointer;
-                `;
-                closeBtn.onclick = () => leaderboardDiv.remove();
-                leaderboardDiv.appendChild(closeBtn);
-                
-                document.body.appendChild(leaderboardDiv);
-            }
-        };
-
-        // Add leaderboard button to score board
-        const scoreBoard = document.querySelector('.score-board');
-        const leaderboardBtn = document.createElement('button');
-        leaderboardBtn.className = 'achievements-btn';
-        leaderboardBtn.textContent = '🏆 Leaderboard';
-        leaderboardBtn.onclick = () => leaderboard.display();
-        scoreBoard.appendChild(leaderboardBtn);
-
-        // Load leaderboard on game start
-        leaderboard.loadScores();
-
-        // Update game over screen to include leaderboard
-        function updateGameOverScreen() {
-            // ... existing game over code ...
-            
-            // Add player name input for leaderboard
-            const nameInput = document.createElement('input');
-            nameInput.type = 'text';
-            nameInput.placeholder = 'Enter your pilot name';
-            nameInput.style.cssText = `
-                margin: 10px 0;
-                padding: 8px;
-                border: 2px solid #ffdd44;
-                border-radius: 5px;
-                background: rgba(0, 0, 0, 0.5);
-                color: white;
-                text-align: center;
-            `;
-            
-            const submitBtn = document.createElement('button');
-            submitBtn.textContent = 'Submit Score';
-            submitBtn.className = 'restart-btn';
-            submitBtn.style.marginTop = '10px';
-            submitBtn.onclick = () => {
-                const playerName = nameInput.value || 'Anonymous Pilot';
-                leaderboard.addScore(score, level, playerName);
-                leaderboard.display();
-            };
-            
-            document.getElementById('gameOver').appendChild(nameInput);
-            document.getElementById('gameOver').appendChild(submitBtn);
-        }
-
-        // Pause functions
-        function togglePause() {
-            isPaused = !isPaused;
-            if (isPaused) {
-                pauseMenu.style.display = 'block';
-                pauseOverlay.style.display = 'block';
-                // Pause all sounds
-                Object.values(sounds).forEach(sound => {
-                    if (sound instanceof Audio) {
-                        sound.pause();
-                    }
-                });
-            } else {
-                pauseMenu.style.display = 'none';
-                pauseOverlay.style.display = 'none';
-                // Resume all sounds
-                Object.values(sounds).forEach(sound => {
-                    if (sound instanceof Audio && !sound.paused) {
-                        sound.play();
-                    }
-                });
-            }
-        }
-
-        function resumeGame() {
-            isPaused = false;
-            pauseMenu.style.display = 'none';
-            pauseOverlay.style.display = 'none';
-            // Resume all sounds
-            Object.values(sounds).forEach(sound => {
-                if (sound instanceof Audio && !sound.paused) {
-                    sound.play();
-                }
-            });
-        }
-
-        // Update the game loop to respect pause state
-        function gameLoop() {
-            if (!isPaused) {
-                update();
-                draw();
-            }
-            requestAnimationFrame(gameLoop);
-        }
-
-        // Add pause on 'P' key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'p' || e.key === 'P') {
-                togglePause();
-            }
-            keys[e.key] = true;
-            
-            // ESC key to close shop and achievements
-            if (e.key === 'Escape') {
-                closeShop();
-                closeAchievements();
-            }
-        });
-
-        // Update restart game function to handle pause state
-        const originalRestartGame = window.restartGame;
-        window.restartGame = function() {
-            isPaused = false;
-            pauseMenu.style.display = 'none';
-            pauseOverlay.style.display = 'none';
-            originalRestartGame();
-        };
-
-        // Add fragmentation mechanics
-        function createFragments(x, y, type, size, count) {
-            for (let i = 0; i < count; i++) {
-                const fragment = {
-                    x: x,
-                    y: y,
-                    width: size,
-                    height: size,
-                    vx: (Math.random() - 0.5) * 4,
-                    vy: (Math.random() - 0.5) * 4,
-                    rotation: 0,
-                    rotationSpeed: (Math.random() - 0.5) * 0.2,
-                    health: 1,
-                    type: type,
-                    isFragment: true,
-                    points: type === 'asteroid' ? 5 : 10
-                };
-                
-                if (type === 'asteroid') {
-                    asteroids.push(fragment);
-                } else {
-                    aliens.push(fragment);
-                }
-            }
-        }
     </script>
 </body>
 </html> 
