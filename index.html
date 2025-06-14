@@ -17,30 +17,64 @@
         .game-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
             height: 100vh;
         }
 
-        .game-header {
-            padding: 20px;
+        .top-menu {
+            padding: 15px;
             text-align: center;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.8);
             width: 100%;
             box-sizing: border-box;
+            border-bottom: 2px solid #ffdd44;
         }
 
         .game-title {
-            font-size: 32px;
-            margin: 0;
+            font-size: 28px;
+            margin: 0 0 10px 0;
             color: #ffdd44;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
 
-        .score-board {
+        .menu-buttons {
             display: flex;
-            justify-content: space-around;
-            margin-top: 10px;
-            font-size: 18px;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .game-area {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+
+        .game-sidebar {
+            width: 250px;
+            background: rgba(0, 0, 0, 0.8);
+            border-right: 2px solid #ffdd44;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .game-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .status-item {
+            display: block;
+            background: rgba(255, 221, 68, 0.2);
+            padding: 10px 15px;
+            margin-bottom: 15px;
+            border-radius: 20px;
+            border: 2px solid #ffdd44;
+            font-size: 16px;
+            text-align: center;
         }
 
         .score, .level {
@@ -55,14 +89,10 @@
             border-radius: 10px;
             background: radial-gradient(circle, #0a0a2e, #000);
             box-shadow: 0 0 30px rgba(255, 221, 68, 0.3);
+            margin: 20px;
         }
 
-        .controls {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 16px;
-            color: #aaa;
-        }
+
 
         .stars {
             position: absolute;
@@ -477,14 +507,10 @@
     <div class="stars" id="stars"></div>
     
     <div class="game-container">
-        <div class="game-header">
+        <div class="top-menu">
             <h1 class="game-title">🚀 GALACTIC DOLLAR HUNTER 🚀</h1>
-            <div class="score-board">
-                <div class="score">💰 Score: <span id="score">0</span></div>
-                <div class="level">🌌 Galaxy: <span id="level">1</span></div>
-                <div class="score">❤️ Health: <span id="hearts">❤️❤️❤️</span></div>
-                <div class="score">🍎 Hunger: <span id="hunger">100</span>%</div>
-                <button class="shop-btn" onclick="openShop()">🛸 Shop</button>
+            <div class="menu-buttons">
+                <button class="shop-btn" onclick="openShop()">🛸 Ships</button>
                 <button class="shop-btn" onclick="openWeaponsShop()">⚔️ Weapons</button>
                 <button class="achievements-btn" onclick="openAchievements()">🏆 Missions</button>
                 <button class="sound-btn" onclick="toggleSound()" id="soundBtn">🔊 Sound</button>
@@ -492,11 +518,27 @@
             </div>
         </div>
         
-        <canvas id="gameCanvas" width="800" height="500"></canvas>
-        
-        <div class="controls">
-            Use ARROW KEYS or WASD to move your spaceship and collect dollars! 🛸💸<br>
-            Press SPACEBAR to shoot laser beams at aliens and asteroids! 🔫👽☄️
+        <div class="game-area">
+            <div class="game-sidebar">
+                <h3 style="color: #ffdd44; text-align: center; margin-top: 0;">📊 PILOT STATUS</h3>
+                <div class="status-item">💰 Score<br><span id="score" style="font-size: 20px; font-weight: bold;">0</span></div>
+                <div class="status-item">🌌 Galaxy<br><span id="level" style="font-size: 20px; font-weight: bold;">1</span></div>
+                <div class="status-item">❤️ Health<br><span id="hearts" style="font-size: 18px;">❤️❤️❤️</span></div>
+                <div class="status-item">🍎 Hunger<br><span id="hunger" style="font-size: 20px; font-weight: bold;">100</span>%</div>
+                
+                <div style="margin-top: 30px;">
+                    <h4 style="color: #ffdd44; text-align: center;">🎮 CONTROLS</h4>
+                    <p style="font-size: 12px; line-height: 1.4; color: #ccc;">
+                        <strong>MOVE:</strong> Arrow Keys / WASD<br>
+                        <strong>SHOOT:</strong> Spacebar<br>
+                        <strong>PAUSE:</strong> ESC / P Key
+                    </p>
+                </div>
+            </div>
+            
+            <div class="game-main">
+                <canvas id="gameCanvas" width="800" height="500"></canvas>
+            </div>
         </div>
         
         <div class="game-over" id="gameOver">
